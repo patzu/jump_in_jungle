@@ -1,4 +1,5 @@
-import 'package:dinogame/girl.dart';
+import 'package:bitcoin_girl/models/score_model.dart';
+import 'package:bitcoin_girl/widgets/score_overlay.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
@@ -6,33 +7,62 @@ import 'package:flame/parallax.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
-class WarriorGirlGame extends FlameGame with TapDetector{
-  bool firstTap = true;
+import 'enemy.dart';
+import 'enemy_manager.dart';
+import 'girl_sprite.dart';
+
+class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
+  bool isFirstTap = true;
   late GirlSprites girlSprites;
+  double score = 0.0;
+  late TextComponent scoreText;
+
+  ScoreModel scoreModel;
+
+  WarriorGirlGame(this.scoreModel);
 
   @override
   Future<void>? onLoad() async {
-    playBackgroundMusic();
-    girlSprites = GirlSprites(this)..size = Vector2(100, 100);
+    // playBackgroundMusic();
+
+    girlSprites = GirlSprites(this, scoreModel);
+    add(girlSprites..size = Vector2(40, 40));
 
     final parallax = await backgroundParallaxComponent();
     add(parallax);
 
-    add(girlSprites);
+    add(EnemyManager());
+
+    scoreText = TextComponent(
+      text: '$score',
+      position: Vector2(300, 5),
+    );
+
+    add(scoreText);
+
+    overlays.add(ScoreOverlay.id);
 
     return super.onLoad();
   }
 
+  @override
+  void update(double dt) {
+    score += (50 * dt);
+    scoreText.text = score.toInt().toString();
+
+    super.update(dt);
+  }
+
   void playBackgroundMusic() {
     FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('bgm.mp3');
+    FlameAudio.bgm.play('bgmj.mp3');
   }
 
   @override
   void onTapDown(TapDownInfo info) {
-    if (firstTap) {
-      girlSprites.idle();
-      firstTap = false;
+    if (isFirstTap) {
+      girlSprites.run();
+      isFirstTap = false;
     } else {
       girlSprites.jump();
     }

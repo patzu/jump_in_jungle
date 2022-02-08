@@ -1,4 +1,4 @@
-name: dinogame
+name: bitcoin_girl
 description: A new Flutter project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -14,6 +14,7 @@ dependencies:
   flame: ^1.0.0
   cupertino_icons: ^1.0.4
   flame_audio: ^1.0.0
+  provider: ^6.0.2
 
 
 dev_dependencies:
@@ -27,9 +28,13 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/images/parallax/
-    - assets/audio/
     - assets/
+    - assets/audio/
+    - assets/images/parallax/
+    - assets/images/enemies/angry_pig/
+    - assets/images/enemies/bat/
+    - assets/images/enemies/BlueBird/
+    - assets/images/enemies/bee/
 
   # fonts:
   #   - family: Schyler

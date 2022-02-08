@@ -1,8 +1,11 @@
+import 'package:bitcoin_girl/widgets/score_overlay.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'warrior_girl_game.dart';
+import 'game/warrior_girl_game.dart';
+import 'models/score_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,27 +15,28 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  Game game = WarriorGirlGame();
-
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: GameWidget(
-          game: game,
+    ScoreModel scoreModel = ScoreModel();
+    var warriorGirlGame = WarriorGirlGame(scoreModel);
+
+    return MultiProvider(
+      providers: [
+        ListenableProvider(create: (_) => scoreModel),
+      ],
+      child: MaterialApp(
+        home: Scaffold(
+          body: GameWidget(
+            game: warriorGirlGame,
+            overlayBuilderMap: {
+              ScoreOverlay.id: (_, __) => ScoreOverlay(),
+            },
+          ),
         ),
       ),
     );
   }
 }
-
-
