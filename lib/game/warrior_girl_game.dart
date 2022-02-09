@@ -7,7 +7,6 @@ import 'package:flame/parallax.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
-import 'enemy.dart';
 import 'enemy_manager.dart';
 import 'girl_sprite.dart';
 

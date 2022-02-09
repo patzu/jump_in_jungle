@@ -8,7 +8,6 @@ import 'package:flame/geometry.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import 'enemy.dart';
-import 'sound_manager.dart';
 import 'warrior_girl_game.dart';
 
 class GirlSprites extends SpriteAnimationComponent
@@ -80,7 +79,7 @@ class GirlSprites extends SpriteAnimationComponent
       hitSpriteAnimation.update(dt);
     }
 
-    position += (velocity * dt);
+    position += (velocity * dt - gravity * dt * dt / 2);
     velocity += gravity * dt;
 
     if (isPlayerBellowTheGround()) {
@@ -130,16 +129,12 @@ class GirlSprites extends SpriteAnimationComponent
     position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHeight);
   }
 
-  bool isPlayerOnTheGround() {
-    return (position.y == deviceYAxisMinusGroundHeight);
-  }
-
   bool isPlayerBellowTheGround() {
-    return (position.y > deviceYAxisMinusGroundHeight);
+    return (position.y >= deviceYAxisMinusGroundHeight);
   }
 
   jump() {
-    if (isPlayerOnTheGround()) {
+    if (isPlayerBellowTheGround()) {
       FlameAudio.audioCache.play('jump14.wav');
 
       velocity = Vector2(
@@ -202,7 +197,7 @@ class GirlSprites extends SpriteAnimationComponent
       _scoreModel.lives -= 1;
       _hitTimer.start();
       hit();
-      SoundManager.playHurtSound();
+      // SoundManager.playHurtSound();
     }
     super.onCollision(intersectionPoints, other);
   }
