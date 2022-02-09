@@ -30,4 +30,5 @@ enum CharacterNameEnum {
   batFly,
   // blueBird,
   bee,
+  bunny,
 }

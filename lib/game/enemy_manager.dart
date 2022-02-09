@@ -16,7 +16,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
   @override
   Future<void>? onLoad() {
     _timer = Timer(
-      Random().nextInt(3) + 1,
+      Random().nextInt(3) + 4,
       repeat: true,
       onTick: () => {
         spawnEnemy(),
@@ -103,6 +103,15 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         speed: Random().nextInt(2).toDouble() + 1,
         canFly: true,
         characterName: CharacterNameEnum.bee,
+      ),
+      CharacterNameEnum.bunny: SpriteSheetModel(
+        imagePath: 'enemies/Bunny/Run (34x44).png',
+        characterPosition: Vector2(500, 200),
+        amountsOfSpritesInSpriteSheet: 12,
+        stepTimeBetweenEachSprite: 0.06,
+        textureSizeOfEachSprite: Vector2(34, 44),
+        spriteSizeOnCanvas: Vector2(40, 40),
+        speed: Random().nextInt(2).toDouble() + 2,
       ),
     };
   }

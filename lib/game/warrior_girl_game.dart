@@ -65,6 +65,7 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
       isFirstTap = false;
     } else {
       girlSprites.jump();
+      girlSprites.run();
     }
   }
 

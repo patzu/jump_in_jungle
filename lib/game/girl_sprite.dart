@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:bitcoin_girl/constants/constants.dart';
-import 'package:bitcoin_girl/game/sound_manager.dart';
 import 'package:bitcoin_girl/models/score_model.dart';
 import 'package:bitcoin_girl/utils/texture_packer_loader.dart';
 import 'package:flame/components.dart';
@@ -9,6 +8,7 @@ import 'package:flame/geometry.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import 'enemy.dart';
+import 'sound_manager.dart';
 import 'warrior_girl_game.dart';
 
 class GirlSprites extends SpriteAnimationComponent
@@ -31,7 +31,7 @@ class GirlSprites extends SpriteAnimationComponent
 
   WarriorGirlGame game;
   final ScoreModel _scoreModel;
-  late double deviceYAxisMinusGroundHight;
+  late double deviceYAxisMinusGroundHeight;
   final Timer _hitTimer = Timer(1.2);
 
   GirlSprites(this.game, this._scoreModel) : super(priority: 1);
@@ -39,7 +39,7 @@ class GirlSprites extends SpriteAnimationComponent
   @override
   Future<void>? onLoad() async {
     anchor = Anchor.bottomCenter;
-    deviceYAxisMinusGroundHight = gameRef.size.y - ground.y + 5;
+    deviceYAxisMinusGroundHeight = gameRef.size.y - ground.y + 5;
 
     walkSpriteAnimation = await action(Action.walk);
     jumpSpriteAnimation = await action(Action.jump);
@@ -49,7 +49,7 @@ class GirlSprites extends SpriteAnimationComponent
     hitSpriteAnimation = await action(Action.hit);
 
     addHitbox(HitboxCircle());
-    position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHight);
+    position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHeight);
 
     return super.onLoad();
   }
@@ -83,10 +83,7 @@ class GirlSprites extends SpriteAnimationComponent
     position += (velocity * dt);
     velocity += gravity * dt;
 
-    // print('yOnTheGround.toString(): ' + yOnTheGround.toString());
-    // print('position: ' + position.toString());
-
-    if (!isPlayerOnTheGround()) {
+    if (isPlayerBellowTheGround()) {
       resetPlayerPositionToTheGround();
     }
 
@@ -130,26 +127,24 @@ class GirlSprites extends SpriteAnimationComponent
   }
 
   void resetPlayerPositionToTheGround() {
-    if (position.y >= deviceYAxisMinusGroundHight) {
-      position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHight);
-    }
+    position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHeight);
   }
 
   bool isPlayerOnTheGround() {
-    return (deviceYAxisMinusGroundHight >= position.y);
+    return (position.y == deviceYAxisMinusGroundHeight);
   }
 
   bool isPlayerBellowTheGround() {
-    return (position.y >= deviceYAxisMinusGroundHight);
+    return (position.y > deviceYAxisMinusGroundHeight);
   }
 
   jump() {
-    if (isPlayerBellowTheGround()) {
+    if (isPlayerOnTheGround()) {
       FlameAudio.audioCache.play('jump14.wav');
 
       velocity = Vector2(
         0,
-        -deviceYAxisMinusGroundHight,
+        -deviceYAxisMinusGroundHeight,
       );
 
       isDead = false;
@@ -207,7 +202,7 @@ class GirlSprites extends SpriteAnimationComponent
       _scoreModel.lives -= 1;
       _hitTimer.start();
       hit();
-      // SoundManager.playHurtSound();
+      SoundManager.playHurtSound();
     }
     super.onCollision(intersectionPoints, other);
   }
