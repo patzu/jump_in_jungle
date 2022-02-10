@@ -61,7 +61,7 @@ class Enemy extends SpriteAnimationComponent
     if (enemyData.characterName == CharacterNameEnum.bee) {
       SpriteSheetModel bulletData =
           EnemyManager().getCharactersBullet()[CharacterNameEnum.bee]!;
-      final bullet = Bullet(this,bulletData);
+      final bullet = Bullet(this, bulletData);
       bullet.size = bulletData.spriteSizeOnCanvas;
       bullet.position = Vector2(position.x, position.y + size.y / 2);
       gameRef.add(bullet);
@@ -74,5 +74,4 @@ class Enemy extends SpriteAnimationComponent
 
     super.render(canvas);
   }
-
 }
