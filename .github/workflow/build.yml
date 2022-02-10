@@ -1,0 +1,73 @@
+name: IOSBuilder
+# Controls when the action will run.
+# on: [workflow_dispatch]
+on: 
+  pull:
+    branches: 
+      - main
+      - master
+  push:
+    branches:
+      - main
+      - master
+      - develop
+      
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+# In this workflow we use a single job called "build"
+  build:
+    name: Build & Release
+    # The type of runner ie, the OS that the job will run on. apart from mac windows and ubuntu are also available
+      runs-on: macos-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+      steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so our job can access it 
+       - uses: actions/checkout@v1
+    #install the necessary dependencies
+     - name: Install Java
+        - uses: actions/setup-java@v1
+          with:
+            java-version:'12.x'
+
+#install flutter
+     - name: Flutter get
+        uses: subosito/flutter-action@v1
+          with:
+            flutter-version: '2.8.1'
+        - run: flutter pub get
+        
+        
+        - name: push to releases
+          - run: flutter build apk --debug --split-per-abi
+        
+          uses: ncipollo/release-action@v1
+            with:
+              artifacts: "build/app/outputs/apk/debug/*"
+              tag: v1.0.${{github.run_number}}
+              token: ${{secrets.TOKEN}}
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+      
+
+
+# push code to master or main
+# pull request
