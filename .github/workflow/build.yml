@@ -1,16 +1,14 @@
 name: IOSBuilder
 # Controls when the action will run.
 # on: [workflow_dispatch]
-on: 
-#  pull:
-#    branches:
-#      - main
-#      - master
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches:
-      - main
-      - master
-      - develop
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
       
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
