@@ -47,10 +47,10 @@ jobs:
           flutter build ios --no-codesign
           cd build/ios/iphoneos
           mkdir Payload
-        cd Payload
-        ln -s ../Runner.app
-        cd ..
-        zip -r app.ipa Payload
+          cd Payload
+          ln -s ../Runner.app
+          cd ..
+          zip -r app.ipa Payload
 
       # Upload generated apk to the artifacts.
       - name: Push to releases
