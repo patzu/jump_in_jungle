@@ -2,10 +2,10 @@ name: IOSBuilder
 # Controls when the action will run.
 # on: [workflow_dispatch]
 on: 
-  pull:
-    branches: 
-      - main
-      - master
+#  pull:
+#    branches:
+#      - main
+#      - master
   push:
     branches:
       - main
