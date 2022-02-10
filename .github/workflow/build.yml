@@ -1,75 +1,49 @@
-name: IOSBuilder
-# Controls when the action will run.
-# on: [workflow_dispatch]
-on: 
-#  pull:
-#    branches:
-#      - main
-#      - master
+name: Flutter CI
+
+# This workflow is triggered on pushes to the repository.
+
+on:
   push:
     branches:
-      - main
       - master
-      - develop
-      
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+
+    # on: push    # Default will running for every branch.
+
 jobs:
-# In this workflow we use a single job called "build"
   build:
-    name: Build Flutter App
-    # The type of runner ie, the OS that the job will run on. apart from mac windows and ubuntu are also available
-      runs-on: macos-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
-      steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so our job can access it 
-       - uses: actions/checkout@v1
-    #install the necessary dependencies
-     - name: Install Java
-        - uses: actions/setup-java@v1
-          with:
-            java-version:'12.x'
+    # This job will run on ubuntu virtual machine
+    runs-on: ubuntu-latest
+    steps:
 
-#install flutter
-     - name: Flutter get
-        uses: subosito/flutter-action@v1
-          with:
-#             flutter-version: '2.8.1'
-              channel: 'stable'
-              
-        - name: Build Flutter App     
-          - run: 
-            flutter pub get
-          - run: 
-             flutter build apk --debug --split-per-abi
-        
-#           uses: ncipollo/release-action@v1
-#             with:
-#               artifacts: "build/app/outputs/apk/debug/*"
-#               tag: v1.0.${{github.run_number}}
-#               token: ${{secrets.TOKEN}}
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-      
+      # Setup Java environment in order to build the Android app.
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
 
+      # Setup the flutter environment.
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'beta' # 'dev', 'alpha', default to: 'stable'
+          # flutter-version: '1.12.x' # you can also specify exact version of flutter
 
-# push code to master or main
-# pull request
+      # Get flutter dependencies.
+      - run: flutter pub get
+
+      # Check for any formatting issues in the code.
+      - run: flutter format --set-exit-if-changed .
+
+      # Statically analyze the Dart code for any errors.
+      - run: flutter analyze .
+
+      # Run widget tests for our flutter project.
+      - run: flutter test
+
+      # Build apk.
+      - run: flutter build apk
+
+      # Upload generated apk to the artifacts.
+      - uses: actions/upload-artifact@v1
+        with:
+          name: release-apk
+          path: build/app/outputs/apk/release/app-release.apk
