@@ -8,15 +8,14 @@ import 'package:flame/geometry.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import 'enemy.dart';
+import 'sound_manager.dart';
 import 'warrior_girl_game.dart';
 
 class GirlSprites extends SpriteAnimationComponent
     with HasGameRef, HasHitboxes, Collidable {
-  late SpriteAnimation walkSpriteAnimation;
   late SpriteAnimation jumpSpriteAnimation;
   late SpriteAnimation deadSpriteAnimation;
   late SpriteAnimation runSpriteAnimation;
-  late SpriteAnimation idleSpriteAnimation;
   late SpriteAnimation hitSpriteAnimation;
 
   Vector2 velocity = Vector2.zero();
@@ -40,12 +39,10 @@ class GirlSprites extends SpriteAnimationComponent
     anchor = Anchor.bottomCenter;
     deviceYAxisMinusGroundHeight = gameRef.size.y - ground.y + 5;
 
-    walkSpriteAnimation = await action(Action.walk);
-    jumpSpriteAnimation = await action(Action.jump);
     deadSpriteAnimation = await action(Action.dead);
-    runSpriteAnimation = await action(Action.run);
-    idleSpriteAnimation = await action(Action.idle);
     hitSpriteAnimation = await action(Action.hit);
+    jumpSpriteAnimation = await action(Action.jump);
+    runSpriteAnimation = await action(Action.run);
 
     addHitbox(HitboxCircle());
     position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHeight);
@@ -65,16 +62,12 @@ class GirlSprites extends SpriteAnimationComponent
 
   @override
   void update(double dt) {
-    if (isWalking) {
-      walkSpriteAnimation.update(dt);
-    } else if (isRunning) {
+    if (isRunning) {
       runSpriteAnimation.update(dt);
     } else if (isJumping) {
       jumpSpriteAnimation.update(dt);
     } else if (isDead) {
       deadSpriteAnimation.update(dt);
-    } else if (isIdle) {
-      idleSpriteAnimation.update(dt);
     } else if (isHit) {
       hitSpriteAnimation.update(dt);
     }
@@ -95,16 +88,12 @@ class GirlSprites extends SpriteAnimationComponent
   void render(Canvas canvas) {
     renderHitboxes(canvas);
 
-    if (isWalking) {
-      walkSpriteAnimation.getSprite().render(canvas, size: size);
-    } else if (isRunning) {
+    if (isRunning) {
       runSpriteAnimation.getSprite().render(canvas, size: size);
     } else if (isJumping) {
       jumpSpriteAnimation.getSprite().render(canvas, size: size);
     } else if (isDead) {
       deadSpriteAnimation.getSprite().render(canvas, size: size);
-    } else if (isIdle) {
-      idleSpriteAnimation.getSprite().render(canvas, size: size);
     } else if (isHit) {
       hitSpriteAnimation.getSprite().render(canvas, size: size);
     }
@@ -197,7 +186,7 @@ class GirlSprites extends SpriteAnimationComponent
       _scoreModel.lives -= 1;
       _hitTimer.start();
       hit();
-      // SoundManager.playHurtSound();
+      SoundManager.playHurtSound();
     }
     super.onCollision(intersectionPoints, other);
   }

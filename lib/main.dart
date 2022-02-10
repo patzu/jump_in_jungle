@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
           body: GameWidget(
             game: warriorGirlGame,
             overlayBuilderMap: {
-              ScoreOverlay.id: (_, __) => ScoreOverlay(),
+              ScoreOverlay.id: (_, WarriorGirlGame warriorGirlGame) =>
+                  ScoreOverlay(warriorGirlGame),
             },
           ),
         ),

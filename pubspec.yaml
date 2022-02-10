@@ -33,9 +33,24 @@ flutter:
     - assets/images/parallax/
     - assets/images/enemies/angry_pig/
     - assets/images/enemies/bat/
-    - assets/images/enemies/BlueBird/
+    - assets/images/enemies/blue_bird/
     - assets/images/enemies/bee/
-    - assets/images/enemies/Bunny/
+    - assets/images/enemies/bunny/
+    - assets/images/enemies/chameleon/
+    - assets/images/enemies/chicken/
+#    - assets/images/enemies/duck/
+#    - assets/images/enemies/fat_bird/
+    - assets/images/enemies/ghost/
+    - assets/images/enemies/mushroom/
+#    - assets/images/enemies/plant/
+    - assets/images/enemies/radish/
+    - assets/images/enemies/rino/
+    - assets/images/enemies/rocks/
+    - assets/images/enemies/skull/
+    - assets/images/enemies/slime/
+    - assets/images/enemies/snail/
+    - assets/images/enemies/trunk/
+    - assets/images/enemies/turtle/
 
   # fonts:
   #   - family: Schyler

@@ -22,7 +22,7 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
 
   @override
   Future<void>? onLoad() async {
-    // playBackgroundMusic();
+    playBackgroundMusic();
 
     girlSprites = GirlSprites(this, scoreModel);
     add(girlSprites..size = Vector2(40, 40));
@@ -37,7 +37,7 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
       position: Vector2(300, 5),
     );
 
-    add(scoreText);
+    // add(scoreText);
 
     overlays.add(ScoreOverlay.id);
 
@@ -46,7 +46,7 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
 
   @override
   void update(double dt) {
-    score += (50 * dt);
+    scoreModel.score += (50 * dt).toInt();
     scoreText.text = score.toInt().toString();
 
     super.update(dt);
