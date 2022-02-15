@@ -1,4 +1,6 @@
-import 'package:bitcoin_girl/models/score_model.dart';
+import 'package:bitcoin_girl/models/game_model.dart';
+import 'package:bitcoin_girl/models/score_overlay_model.dart';
+import 'package:bitcoin_girl/widgets/pause-overlay.dart';
 import 'package:bitcoin_girl/widgets/score_overlay.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -11,26 +13,22 @@ import 'enemy_manager.dart';
 import 'girl_sprite.dart';
 
 class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
-  bool isFirstTap = true;
   late GirlSprites girlSprites;
   double score = 0.0;
   late TextComponent scoreText;
 
-  ScoreModel scoreModel;
+  ScoreOverlayModel scoreModel;
 
   WarriorGirlGame(this.scoreModel);
 
   @override
   Future<void>? onLoad() async {
-    playBackgroundMusic();
-
-    girlSprites = GirlSprites(this, scoreModel);
-    add(girlSprites..size = Vector2(40, 40));
+    // playBackgroundMusic();
 
     final parallax = await backgroundParallaxComponent();
     add(parallax);
 
-    add(EnemyManager());
+    girlSprites = GirlSprites(scoreModel);
 
     scoreText = TextComponent(
       text: '$score',
@@ -46,10 +44,19 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
 
   @override
   void update(double dt) {
-    scoreModel.score += (50 * dt).toInt();
-    scoreText.text = score.toInt().toString();
+    if (GameModel.instance.state == GameStateEnum.resume) {
+      scoreModel.score += 1;
+      scoreText.text = score.toInt().toString();
+    }
 
     super.update(dt);
+  }
+
+  Future<void> startGame() async {
+    GameModel.instance.state = GameStateEnum.resume;
+    overlays.add(ScoreOverlay.id);
+    await add(EnemyManager());
+    await add(girlSprites..size = Vector2(40, 50));
   }
 
   void playBackgroundMusic() {
@@ -59,12 +66,8 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
 
   @override
   void onTapDown(TapDownInfo info) {
-    if (isFirstTap) {
-      girlSprites.run();
-      isFirstTap = false;
-    } else {
+    if (!girlSprites.isDead && !overlays.isActive(PauseOverlay.id)) {
       girlSprites.jump();
-      girlSprites.run();
     }
   }
 
@@ -101,37 +104,5 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
         baseVelocity: Vector2(20, 0),
       ),
     );
-  }
-}
-
-enum GameStateEnum {
-  fail,
-  win,
-  start,
-  stop,
-  running,
-}
-
-class GameState {
-  static GameStateEnum _gameState = GameStateEnum.stop;
-
-  static set gameState(GameStateEnum value) {
-    _gameState = value;
-  }
-
-  static stop() {
-    if (_gameState == GameStateEnum.stop) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  static start() {
-    if (_gameState == GameStateEnum.start) {
-      return true;
-    } else {
-      return false;
-    }
   }
 }

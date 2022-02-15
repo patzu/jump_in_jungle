@@ -1,15 +1,15 @@
 import 'dart:ui';
 
 import 'package:bitcoin_girl/constants/constants.dart';
-import 'package:bitcoin_girl/models/score_model.dart';
+import 'package:bitcoin_girl/models/score_overlay_model.dart';
 import 'package:bitcoin_girl/utils/texture_packer_loader.dart';
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame_audio/flame_audio.dart';
 
+import '../models/game_model.dart';
 import 'enemy.dart';
 import 'sound_manager.dart';
-import 'warrior_girl_game.dart';
 
 class GirlSprites extends SpriteAnimationComponent
     with HasGameRef, HasHitboxes, Collidable {
@@ -20,19 +20,17 @@ class GirlSprites extends SpriteAnimationComponent
 
   Vector2 velocity = Vector2.zero();
   Vector2 gravity = Vector2(0, 500);
-  bool isWalking = false;
   bool isJumping = false;
   bool isRunning = false;
   bool isDead = false;
   bool isIdle = true;
   bool isHit = false;
 
-  WarriorGirlGame game;
-  final ScoreModel _scoreModel;
+  final ScoreOverlayModel _scoreModel;
   late double deviceYAxisMinusGroundHeight;
   final Timer _hitTimer = Timer(1.2);
 
-  GirlSprites(this.game, this._scoreModel) : super(priority: 1);
+  GirlSprites(this._scoreModel) : super(priority: 1);
 
   @override
   Future<void>? onLoad() async {
@@ -54,7 +52,6 @@ class GirlSprites extends SpriteAnimationComponent
   void onMount() {
     _hitTimer.onTick = () => {
           isHit = false,
-          run(),
         };
 
     super.onMount();
@@ -77,6 +74,16 @@ class GirlSprites extends SpriteAnimationComponent
 
     if (isPlayerBellowTheGround()) {
       resetPlayerPositionToTheGround();
+      if (isDead != true) {
+        run();
+      }
+
+      deadSpriteAnimation.onComplete = () {
+        GameModel.instance.pauseGameEngine();
+      };
+
+      // if (isDead == true) {
+      // }
     }
 
     _hitTimer.update(dt);
@@ -111,6 +118,7 @@ class GirlSprites extends SpriteAnimationComponent
           : action == Action.dead
               ? 0.07
               : 0.05,
+      loop: action.name == Action.dead.name ? false : true,
     );
   }
 
@@ -134,7 +142,6 @@ class GirlSprites extends SpriteAnimationComponent
       isDead = false;
       isJumping = true;
       isRunning = false;
-      isWalking = false;
       isIdle = false;
     }
   }
@@ -143,15 +150,6 @@ class GirlSprites extends SpriteAnimationComponent
     isDead = false;
     isJumping = false;
     isRunning = true;
-    isWalking = false;
-    isIdle = false;
-  }
-
-  walk() {
-    isDead = false;
-    isJumping = false;
-    isRunning = false;
-    isWalking = true;
     isIdle = false;
   }
 
@@ -159,7 +157,6 @@ class GirlSprites extends SpriteAnimationComponent
     isDead = true;
     isJumping = false;
     isRunning = false;
-    isWalking = false;
     isIdle = false;
   }
 
@@ -167,26 +164,29 @@ class GirlSprites extends SpriteAnimationComponent
     isDead = false;
     isJumping = false;
     isRunning = false;
-    isWalking = false;
     isIdle = true;
   }
 
   hit() {
-    isDead = false;
-    isJumping = false;
-    isRunning = false;
-    isWalking = false;
-    isIdle = false;
-    isHit = true;
+    SoundManager.playHurtSound();
+    _scoreModel.lives -= 1;
+    if (_scoreModel.lives == 0) {
+      dead();
+    } else {
+      _hitTimer.start();
+
+      isDead = false;
+      isJumping = false;
+      isRunning = false;
+      isIdle = false;
+      isHit = true;
+    }
   }
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
-    if (other is Enemy && !isHit) {
-      _scoreModel.lives -= 1;
-      _hitTimer.start();
+    if (other is Enemy && !isHit && !isDead) {
       hit();
-      SoundManager.playHurtSound();
     }
     super.onCollision(intersectionPoints, other);
   }
@@ -194,7 +194,6 @@ class GirlSprites extends SpriteAnimationComponent
 
 enum Action {
   run,
-  walk,
   jump,
   dead,
   idle,

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-class ScoreModel with ChangeNotifier {
+class ScoreOverlayModel with ChangeNotifier {
   int _highScore = 0;
   int _score = 0;
   int _lives = 5;
@@ -23,7 +23,6 @@ class ScoreModel with ChangeNotifier {
 
   set lives(int value) {
     _lives = value;
-    print('scoreModel.live: $_lives');
     notifyListeners();
   }
 }

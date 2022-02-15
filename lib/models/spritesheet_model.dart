@@ -31,7 +31,6 @@ enum CharacterNameEnum {
   blueBird,
   bee,
   bunny,
-  chameleon,
   chicken,
   // duck,
   // fatBird,

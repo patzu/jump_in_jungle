@@ -24,7 +24,7 @@ class Enemy extends SpriteAnimationComponent
       textureSize: enemyData.textureSizeOfEachSprite,
     );
 
-    animation = await gameRef.loadSpriteAnimation(
+    animation =  await gameRef.loadSpriteAnimation(
         enemyData.imagePath, spriteAnimationData);
 
     anchor = Anchor.center;

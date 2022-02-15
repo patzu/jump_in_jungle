@@ -12,10 +12,13 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
   late Enemy enemy;
   final Random _random = Random();
 
+  final int rndSpeed = 2;
+  final int speed = 4;
+
   @override
   Future<void>? onLoad() {
     _timer = Timer(
-      Random().nextInt(3) + 4,
+      Random().nextInt(2) + 3,
       repeat: true,
       onTick: () => {
         spawnEnemy(),
@@ -60,8 +63,8 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         amountsOfSpritesInSpriteSheet: 12,
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(36, 30),
-        spriteSizeOnCanvas: Vector2(35, 35),
-        speed: Random().nextInt(3).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(41, 35),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.angryPigRun,
       ),
       CharacterNameEnum.angryPigWalk: SpriteSheetModel(
@@ -70,8 +73,8 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         amountsOfSpritesInSpriteSheet: 16,
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(36, 30),
-        spriteSizeOnCanvas: Vector2(35, 35),
-        speed: Random().nextInt(3).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(41, 35),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.angryPigWalk,
       ),
       CharacterNameEnum.batFly: SpriteSheetModel(
@@ -80,8 +83,8 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         amountsOfSpritesInSpriteSheet: 7,
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(46, 30),
-        spriteSizeOnCanvas: Vector2(35, 35),
-        speed: Random().nextInt(3).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(40, 35),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         canFly: true,
         characterName: CharacterNameEnum.batFly,
       ),
@@ -92,7 +95,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(32, 32),
         spriteSizeOnCanvas: Vector2(35, 35),
-        speed: Random().nextInt(3).toDouble() + 2,
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         canFly: true,
         characterName: CharacterNameEnum.blueBird,
       ),
@@ -100,32 +103,22 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         imagePath: 'enemies/bee/attack (36x34).png',
         characterPosition: Vector2(500, 200),
         amountsOfSpritesInSpriteSheet: 8,
-        stepTimeBetweenEachSprite: 0.2,
+        stepTimeBetweenEachSprite: 0.1,
         textureSizeOfEachSprite: Vector2(36, 34),
-        spriteSizeOnCanvas: Vector2(25, 25),
-        speed: Random().nextInt(2).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(30, 25),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         canFly: true,
         characterName: CharacterNameEnum.bee,
       ),
       CharacterNameEnum.bunny: SpriteSheetModel(
-        imagePath: 'enemies/bunny/run(34x44).png',
+        imagePath: 'enemies/bunny/run (34x44).png',
         characterPosition: Vector2(500, 200),
         amountsOfSpritesInSpriteSheet: 12,
         stepTimeBetweenEachSprite: 0.06,
         textureSizeOfEachSprite: Vector2(34, 44),
-        spriteSizeOnCanvas: Vector2(40, 40),
-        speed: Random().nextInt(2).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(40, 50),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.bunny,
-      ),
-      CharacterNameEnum.chameleon: SpriteSheetModel(
-        imagePath: 'enemies/chameleon/run (84x38).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 8,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(84, 38),
-        spriteSizeOnCanvas: Vector2(84, 38),
-        speed: Random().nextInt(2).toDouble() + 2,
-        characterName: CharacterNameEnum.chameleon,
       ),
       CharacterNameEnum.chicken: SpriteSheetModel(
         imagePath: 'enemies/chicken/run (32x34).png',
@@ -134,7 +127,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(32, 34),
         spriteSizeOnCanvas: Vector2(32, 34),
-        speed: Random().nextInt(2).toDouble() + 2,
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.chicken,
       ),
       CharacterNameEnum.ghost: SpriteSheetModel(
@@ -144,7 +137,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         stepTimeBetweenEachSprite: 0.4,
         textureSizeOfEachSprite: Vector2(44, 30),
         spriteSizeOnCanvas: Vector2(44, 30),
-        speed: Random().nextInt(2).toDouble() + 2,
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.ghost,
       ),
       CharacterNameEnum.mushroom: SpriteSheetModel(
@@ -154,7 +147,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(32, 32),
         spriteSizeOnCanvas: Vector2(32, 32),
-        speed: Random().nextInt(2).toDouble() + 2,
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.mushroom,
       ),
       CharacterNameEnum.radish: SpriteSheetModel(
@@ -163,18 +156,18 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         amountsOfSpritesInSpriteSheet: 12,
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(30, 38),
-        spriteSizeOnCanvas: Vector2(30, 38),
-        speed: Random().nextInt(2).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(40, 48),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.radish,
       ),
       CharacterNameEnum.rino: SpriteSheetModel(
         imagePath: 'enemies/rino/run (52x34).png',
         characterPosition: Vector2(500, 200),
         amountsOfSpritesInSpriteSheet: 6,
-        stepTimeBetweenEachSprite: 0.2,
+        stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(52, 34),
-        spriteSizeOnCanvas: Vector2(52, 34),
-        speed: Random().nextInt(2).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(75, 65),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.rino,
       ),
       CharacterNameEnum.rocks: SpriteSheetModel(
@@ -183,8 +176,8 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         amountsOfSpritesInSpriteSheet: 14,
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(22, 18),
-        spriteSizeOnCanvas: Vector2(22, 18),
-        speed: Random().nextInt(2).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(50, 35),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.rocks,
       ),
       CharacterNameEnum.skull: SpriteSheetModel(
@@ -193,8 +186,8 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         amountsOfSpritesInSpriteSheet: 8,
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(52, 54),
-        spriteSizeOnCanvas: Vector2(52, 54),
-        speed: Random().nextInt(2).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(45, 54),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.skull,
       ),
       CharacterNameEnum.slime: SpriteSheetModel(
@@ -203,8 +196,8 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         amountsOfSpritesInSpriteSheet: 10,
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(44, 30),
-        spriteSizeOnCanvas: Vector2(44, 30),
-        speed: Random().nextInt(2).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(54, 40),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.slime,
       ),
       CharacterNameEnum.snail: SpriteSheetModel(
@@ -214,7 +207,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(38, 24),
         spriteSizeOnCanvas: Vector2(38, 24),
-        speed: Random().nextInt(2).toDouble() + 2,
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.snail,
       ),
       CharacterNameEnum.trunk: SpriteSheetModel(
@@ -223,8 +216,8 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         amountsOfSpritesInSpriteSheet: 11,
         stepTimeBetweenEachSprite: 0.1,
         textureSizeOfEachSprite: Vector2(64, 32),
-        spriteSizeOnCanvas: Vector2(64, 32),
-        speed: Random().nextInt(2).toDouble() + 2,
+        spriteSizeOnCanvas: Vector2(64, 40),
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.trunk,
       ),
       CharacterNameEnum.turtle: SpriteSheetModel(
@@ -234,7 +227,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
         stepTimeBetweenEachSprite: 0.05,
         textureSizeOfEachSprite: Vector2(44, 26),
         spriteSizeOnCanvas: Vector2(44, 26),
-        speed: Random().nextInt(2).toDouble() + 2,
+        speed: Random().nextInt(rndSpeed).toDouble() + speed,
         characterName: CharacterNameEnum.turtle,
       ),
     };
