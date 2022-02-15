@@ -1,6 +1,5 @@
 import 'package:bitcoin_girl/models/game_model.dart';
 import 'package:bitcoin_girl/models/score_overlay_model.dart';
-import 'package:bitcoin_girl/widgets/pause-overlay.dart';
 import 'package:bitcoin_girl/widgets/score_overlay.dart';
 import 'package:flame/components.dart';
 import 'package:flame/game.dart';
@@ -66,7 +65,7 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
 
   @override
   void onTapDown(TapDownInfo info) {
-    if (!girlSprites.isDead && !overlays.isActive(PauseOverlay.id)) {
+    if (!girlSprites.isDead && GameModel.instance.isResumed()) {
       girlSprites.jump();
     }
   }

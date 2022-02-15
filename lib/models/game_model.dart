@@ -25,7 +25,7 @@ class GameModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  isPaused() {
+  bool isPaused() {
     if (state == GameStateEnum.pause) {
       return true;
     } else {
@@ -33,7 +33,7 @@ class GameModel extends ChangeNotifier {
     }
   }
 
-  isResumed() {
+  bool isResumed() {
     if (state == GameStateEnum.resume) {
       return true;
     } else {
