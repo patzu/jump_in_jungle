@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 
 import 'game/warrior_girl_game.dart';
 import 'models/game_model.dart';
-import 'models/score_overlay_model.dart';
+import 'widgets/game_over-overlay.dart';
 import 'widgets/play_overlay.dart';
+import 'widgets/score_overlay_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,12 +25,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ScoreOverlayModel scoreModel = ScoreOverlayModel();
-    var gameRef = WarriorGirlGame(scoreModel);
+    final gameRef = WarriorGirlGame(scoreModel);
+    final gameModel = GameModel(gameRef: gameRef);
+
+    print('main: ${gameRef.hashCode}');
+    print('main: ${gameModel.gameRef.hashCode}');
 
     return MultiProvider(
       providers: [
         ListenableProvider(create: (_) => scoreModel),
-        ListenableProvider(create: (_) => GameModel(gameRef: gameRef)),
+        ListenableProvider(create: (_) => gameModel),
       ],
       child: MaterialApp(
         home: Scaffold(
@@ -39,6 +44,7 @@ class MyApp extends StatelessWidget {
               ScoreOverlay.id: (_, __) => ScoreOverlay(),
               PlayOverlay.id: (_, __) => PlayOverlay(),
               PauseOverlay.id: (_, __) => PauseOverlay(),
+              GameOverOverlay.id: (_, __) => GameOverOverlay(),
             },
             initialActiveOverlays: [PlayOverlay.id],
           ),

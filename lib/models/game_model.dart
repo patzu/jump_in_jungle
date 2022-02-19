@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 class GameModel extends ChangeNotifier {
   late WarriorGirlGame gameRef;
-  GameStateEnum _state = GameStateEnum.pause;
+  GameStateEnum _gameState = GameStateEnum.pause;
+  PlayerStateEnum _playerState = PlayerStateEnum.alive;
 
   //This is the private constructor for GameModel class
   GameModel._privateConstructor();
@@ -17,16 +18,24 @@ class GameModel extends ChangeNotifier {
     return instance;
   }
 
+  GameStateEnum get gameState => _gameState;
 
-  GameStateEnum get state => _state;
-
-  set state(GameStateEnum value) {
-    _state = value;
+  set gameState(GameStateEnum value) {
+    _gameState = value;
     notifyListeners();
+    print('game state changed to:' + gameState.name);
+  }
+
+  PlayerStateEnum get playerState => _playerState;
+
+  set playerState(PlayerStateEnum value) {
+    _playerState = value;
+    notifyListeners();
+    print('player state changed to:' + playerState.name);
   }
 
   bool isPaused() {
-    if (state == GameStateEnum.pause) {
+    if (gameState == GameStateEnum.pause) {
       return true;
     } else {
       return false;
@@ -34,7 +43,15 @@ class GameModel extends ChangeNotifier {
   }
 
   bool isResumed() {
-    if (state == GameStateEnum.resume) {
+    if (gameState == GameStateEnum.resume) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool isDead() {
+    if (playerState == PlayerStateEnum.dead) {
       return true;
     } else {
       return false;
@@ -42,19 +59,22 @@ class GameModel extends ChangeNotifier {
   }
 
   pauseGameEngine() {
-    state = GameStateEnum.pause;
+    gameState = GameStateEnum.pause;
     gameRef.pauseEngine();
   }
 
   resumeGameEngine() {
-    state = GameStateEnum.resume;
+    gameState = GameStateEnum.resume;
     gameRef.resumeEngine();
   }
 }
 
 enum GameStateEnum {
-  gameOver,
-  win,
   pause,
   resume,
+}
+
+enum PlayerStateEnum {
+  dead,
+  alive,
 }

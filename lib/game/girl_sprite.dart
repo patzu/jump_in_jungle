@@ -1,14 +1,15 @@
 import 'dart:ui';
 
 import 'package:bitcoin_girl/constants/constants.dart';
-import 'package:bitcoin_girl/models/score_overlay_model.dart';
-import 'package:bitcoin_girl/utils/texture_packer_loader.dart';
+import 'package:bitcoin_girl/widgets/score_overlay_model.dart';
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 import 'package:flame_audio/flame_audio.dart';
 
 import '../models/game_model.dart';
+import '../widgets/game_over-overlay.dart';
 import 'enemy.dart';
+import 'player_data.dart';
 import 'sound_manager.dart';
 
 class GirlSprites extends SpriteAnimationComponent
@@ -23,37 +24,42 @@ class GirlSprites extends SpriteAnimationComponent
   bool isJumping = false;
   bool isRunning = false;
   bool isDead = false;
-  bool isIdle = true;
   bool isHit = false;
 
-  final ScoreOverlayModel _scoreModel;
-  late double deviceYAxisMinusGroundHeight;
+  final ScoreOverlayModel scoreModel;
+  final PlayerData playerData;
+
+  double deviceYAxisMinusGroundHeight = 0;
   final Timer _hitTimer = Timer(1.2);
 
-  GirlSprites(this._scoreModel) : super(priority: 1);
+  GirlSprites(this.scoreModel, this.playerData) : super(priority: 1);
 
   @override
-  Future<void>? onLoad() async {
-    anchor = Anchor.bottomCenter;
-    deviceYAxisMinusGroundHeight = gameRef.size.y - ground.y + 5;
-
-    deadSpriteAnimation = await action(Action.dead);
-    hitSpriteAnimation = await action(Action.hit);
-    jumpSpriteAnimation = await action(Action.jump);
-    runSpriteAnimation = await action(Action.run);
-
-    addHitbox(HitboxCircle());
-    position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHeight);
+  Future<void>? onLoad() {
+    jumpSpriteAnimation = playerData.jumpSpriteAnimation;
+    deadSpriteAnimation = playerData.deadSpriteAnimation;
+    runSpriteAnimation = playerData.runSpriteAnimation;
+    hitSpriteAnimation = playerData.hitSpriteAnimation;
 
     return super.onLoad();
   }
 
   @override
   void onMount() {
+    anchor = Anchor.bottomCenter;
+    deviceYAxisMinusGroundHeight = gameRef.size.y - ground.y + 5;
+    addHitbox(HitboxCircle());
+    position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHeight);
+
     _hitTimer.onTick = () => {
           isHit = false,
         };
+    run();
 
+    // deadSpriteAnimation.onComplete = () {
+    //   GameModel.instance.pauseGameEngine();
+    //   gameRef.overlays.add(GameOverOverlay.id);
+    // };
     super.onMount();
   }
 
@@ -74,18 +80,17 @@ class GirlSprites extends SpriteAnimationComponent
 
     if (isPlayerBellowTheGround()) {
       resetPlayerPositionToTheGround();
-      if (isDead != true) {
-        run();
-      }
-
-      deadSpriteAnimation.onComplete = () {
-        GameModel.instance.pauseGameEngine();
-      };
-
-      // if (isDead == true) {
-      // }
     }
 
+    if (isDead != true) {
+      run();
+    }
+    if (GameModel.instance.playerState == PlayerStateEnum.dead) {
+      Future.delayed(Duration(seconds: 1)).then((value) {
+        GameModel.instance.pauseGameEngine();
+        gameRef.overlays.add(GameOverOverlay.id);
+      });
+    }
     _hitTimer.update(dt);
 
     super.update(dt);
@@ -108,20 +113,6 @@ class GirlSprites extends SpriteAnimationComponent
     super.render(canvas);
   }
 
-  Future<SpriteAnimation> action(Action action) async {
-    final spriteSequence = await TexturePackerLoader.fromJSONAtlas(
-        action.name + '.png', action.name + '.json');
-    return SpriteAnimation.spriteList(
-      spriteSequence,
-      stepTime: action == Action.run
-          ? 0.03
-          : action == Action.dead
-              ? 0.07
-              : 0.05,
-      loop: action.name == Action.dead.name ? false : true,
-    );
-  }
-
   void resetPlayerPositionToTheGround() {
     position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHeight);
   }
@@ -142,7 +133,6 @@ class GirlSprites extends SpriteAnimationComponent
       isDead = false;
       isJumping = true;
       isRunning = false;
-      isIdle = false;
     }
   }
 
@@ -150,27 +140,25 @@ class GirlSprites extends SpriteAnimationComponent
     isDead = false;
     isJumping = false;
     isRunning = true;
-    isIdle = false;
   }
 
   dead() {
     isDead = true;
     isJumping = false;
     isRunning = false;
-    isIdle = false;
+    GameModel.instance.playerState = PlayerStateEnum.dead;
   }
 
   idle() {
     isDead = false;
     isJumping = false;
     isRunning = false;
-    isIdle = true;
   }
 
   hit() {
     SoundManager.playHurtSound();
-    _scoreModel.lives -= 1;
-    if (_scoreModel.lives == 0) {
+    scoreModel.lives -= 1;
+    if (scoreModel.lives == 0) {
       dead();
     } else {
       _hitTimer.start();
@@ -178,7 +166,6 @@ class GirlSprites extends SpriteAnimationComponent
       isDead = false;
       isJumping = false;
       isRunning = false;
-      isIdle = false;
       isHit = true;
     }
   }

@@ -5,15 +5,13 @@ import 'package:flame/components.dart';
 import '../constants/constants.dart';
 import '../models/spritesheet_model.dart';
 import 'enemy.dart';
+import 'enemy_data.dart';
 import 'warrior_girl_game.dart';
 
 class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
   late Timer _timer;
   late Enemy enemy;
   final Random _random = Random();
-
-  final int rndSpeed = 2;
-  final int speed = 4;
 
   @override
   Future<void>? onLoad() {
@@ -55,204 +53,20 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
     super.update(dt);
   }
 
-  Map<CharacterNameEnum, SpriteSheetModel> getEnemiesMap() {
-    return {
-      CharacterNameEnum.angryPigRun: SpriteSheetModel(
-        imagePath: 'enemies/angry_pig/Run (36x30).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 12,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(36, 30),
-        spriteSizeOnCanvas: Vector2(41, 35),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.angryPigRun,
-      ),
-      CharacterNameEnum.angryPigWalk: SpriteSheetModel(
-        imagePath: 'enemies/angry_pig/Walk (36x30).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 16,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(36, 30),
-        spriteSizeOnCanvas: Vector2(41, 35),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.angryPigWalk,
-      ),
-      CharacterNameEnum.batFly: SpriteSheetModel(
-        imagePath: 'enemies/bat/Flying (46x30).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 7,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(46, 30),
-        spriteSizeOnCanvas: Vector2(40, 35),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        canFly: true,
-        characterName: CharacterNameEnum.batFly,
-      ),
-      CharacterNameEnum.blueBird: SpriteSheetModel(
-        imagePath: 'enemies/blue_bird/flying (32x32).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 9,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(32, 32),
-        spriteSizeOnCanvas: Vector2(35, 35),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        canFly: true,
-        characterName: CharacterNameEnum.blueBird,
-      ),
-      CharacterNameEnum.bee: SpriteSheetModel(
-        imagePath: 'enemies/bee/attack (36x34).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 8,
-        stepTimeBetweenEachSprite: 0.1,
-        textureSizeOfEachSprite: Vector2(36, 34),
-        spriteSizeOnCanvas: Vector2(30, 25),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        canFly: true,
-        characterName: CharacterNameEnum.bee,
-      ),
-      CharacterNameEnum.bunny: SpriteSheetModel(
-        imagePath: 'enemies/bunny/run (34x44).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 12,
-        stepTimeBetweenEachSprite: 0.06,
-        textureSizeOfEachSprite: Vector2(34, 44),
-        spriteSizeOnCanvas: Vector2(40, 50),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.bunny,
-      ),
-      CharacterNameEnum.chicken: SpriteSheetModel(
-        imagePath: 'enemies/chicken/run (32x34).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 14,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(32, 34),
-        spriteSizeOnCanvas: Vector2(32, 34),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.chicken,
-      ),
-      CharacterNameEnum.ghost: SpriteSheetModel(
-        imagePath: 'enemies/ghost/appear (44x30).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 4,
-        stepTimeBetweenEachSprite: 0.4,
-        textureSizeOfEachSprite: Vector2(44, 30),
-        spriteSizeOnCanvas: Vector2(44, 30),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.ghost,
-      ),
-      CharacterNameEnum.mushroom: SpriteSheetModel(
-        imagePath: 'enemies/mushroom/run (32x32).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 16,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(32, 32),
-        spriteSizeOnCanvas: Vector2(32, 32),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.mushroom,
-      ),
-      CharacterNameEnum.radish: SpriteSheetModel(
-        imagePath: 'enemies/radish/run (30x38).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 12,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(30, 38),
-        spriteSizeOnCanvas: Vector2(40, 48),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.radish,
-      ),
-      CharacterNameEnum.rino: SpriteSheetModel(
-        imagePath: 'enemies/rino/run (52x34).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 6,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(52, 34),
-        spriteSizeOnCanvas: Vector2(75, 65),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.rino,
-      ),
-      CharacterNameEnum.rocks: SpriteSheetModel(
-        imagePath: 'enemies/rocks/run (22x18).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 14,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(22, 18),
-        spriteSizeOnCanvas: Vector2(50, 35),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.rocks,
-      ),
-      CharacterNameEnum.skull: SpriteSheetModel(
-        imagePath: 'enemies/skull/idle 2 (52x54).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 8,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(52, 54),
-        spriteSizeOnCanvas: Vector2(45, 54),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.skull,
-      ),
-      CharacterNameEnum.slime: SpriteSheetModel(
-        imagePath: 'enemies/slime/idle-run (44x30).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 10,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(44, 30),
-        spriteSizeOnCanvas: Vector2(54, 40),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.slime,
-      ),
-      CharacterNameEnum.snail: SpriteSheetModel(
-        imagePath: 'enemies/snail/walk (38x24).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 10,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(38, 24),
-        spriteSizeOnCanvas: Vector2(38, 24),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.snail,
-      ),
-      CharacterNameEnum.trunk: SpriteSheetModel(
-        imagePath: 'enemies/trunk/attack (64x32).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 11,
-        stepTimeBetweenEachSprite: 0.1,
-        textureSizeOfEachSprite: Vector2(64, 32),
-        spriteSizeOnCanvas: Vector2(64, 40),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.trunk,
-      ),
-      CharacterNameEnum.turtle: SpriteSheetModel(
-        imagePath: 'enemies/turtle/spikes out (44x26).png',
-        characterPosition: Vector2(500, 200),
-        amountsOfSpritesInSpriteSheet: 8,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(44, 26),
-        spriteSizeOnCanvas: Vector2(44, 26),
-        speed: Random().nextInt(rndSpeed).toDouble() + speed,
-        characterName: CharacterNameEnum.turtle,
-      ),
-    };
-  }
-
-  Map<CharacterNameEnum, SpriteSheetModel> getCharactersBullet() {
-    return {
-      CharacterNameEnum.bee: SpriteSheetModel(
-        imagePath: 'enemies/bee/bullet pieces.png',
-        characterPosition: Vector2(100, 200),
-        amountsOfSpritesInSpriteSheet: 2,
-        stepTimeBetweenEachSprite: 0.05,
-        textureSizeOfEachSprite: Vector2(16, 16),
-        spriteSizeOnCanvas: Vector2(10, 10),
-        characterName: CharacterNameEnum.bee,
-        speed: 0.5,
-        canFly: true,
-      ),
-    };
-  }
-
   SpriteSheetModel? getRandomEnemy() {
     int enemyTypeIndex = Random().nextInt(CharacterNameEnum.values.length);
     CharacterNameEnum randomEnemyType =
         CharacterNameEnum.values.elementAt(enemyTypeIndex);
     return getEnemiesMap()[randomEnemyType];
+  }
+
+  void removeAllEnemies() {
+    final enemies = children.whereType<Enemy>();
+    for (var enemy in enemies) {
+      enemy.removeFromParent();
+      // for (var element in enemy.animation!.frames) {
+      //   element.sprite.image.dispose();
+      // }
+    }
   }
 }

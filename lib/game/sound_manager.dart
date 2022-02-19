@@ -4,4 +4,6 @@ class SoundManager {
   static void playHurtSound() {
     FlameAudio.audioCache.play('hurt7.wav');
   }
+
+  static void playBackgroundMusic() {}
 }

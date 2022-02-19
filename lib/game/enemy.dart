@@ -6,7 +6,7 @@ import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 
 import 'bullet.dart';
-import 'enemy_manager.dart';
+import 'enemy_data.dart';
 
 class Enemy extends SpriteAnimationComponent
     with HasGameRef, HasHitboxes, Collidable {
@@ -24,13 +24,13 @@ class Enemy extends SpriteAnimationComponent
       textureSize: enemyData.textureSizeOfEachSprite,
     );
 
-    animation =  await gameRef.loadSpriteAnimation(
+    animation = await gameRef.loadSpriteAnimation(
         enemyData.imagePath, spriteAnimationData);
 
     anchor = Anchor.center;
     addHitbox(HitboxCircle());
 
-    _timer = Timer(Random().nextInt(7) + 4, repeat: true, autoStart: true,
+    _timer = Timer(Random().nextInt(5) + 4, repeat: true, autoStart: true,
         onTick: () {
       shoot();
     });
@@ -60,7 +60,7 @@ class Enemy extends SpriteAnimationComponent
   void shoot() {
     if (enemyData.characterName == CharacterNameEnum.bee) {
       SpriteSheetModel bulletData =
-          EnemyManager().getCharactersBullet()[CharacterNameEnum.bee]!;
+          getCharactersBullet()[CharacterNameEnum.bee]!;
       final bullet = Bullet(this, bulletData);
       bullet.size = bulletData.spriteSizeOnCanvas;
       bullet.position = Vector2(position.x, position.y + size.y / 2);

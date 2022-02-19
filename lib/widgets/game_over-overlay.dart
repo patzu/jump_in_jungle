@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 
 import '../models/game_model.dart';
 
-class PauseOverlay extends StatelessWidget {
-  static const String id = 'PauseOverlay';
+class GameOverOverlay extends StatelessWidget {
+  static const String id = 'GameOverOverlay';
 
-  const PauseOverlay({Key? key}) : super(key: key);
+  const GameOverOverlay({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,34 +34,19 @@ class PauseOverlay extends StatelessWidget {
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Text('Your Score is: ${scoreOverlayModel.score}',
+                  Text('GAME OVER', style: TextStyle(fontSize: 25)),
+                  Text('Score: ${scoreOverlayModel.score}',
                       style: TextStyle(fontSize: 25)),
                   ElevatedButton(
                     onPressed: () {
-                      gameRefModel.gameRef.overlays.remove(PauseOverlay.id);
-                      GameModel.instance.resumeGameEngine();
-
-                      print(
-                          'Pause overlay: ${GameModel.instance.gameRef.hashCode}');
-                      print('Pause overlay: ${gameRefModel.gameRef.hashCode}');
-                    },
-                    child: Text('Resume'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
+                      gameRefModel.gameRef.overlays.remove(GameOverOverlay.id);
                       gameRefModel.resumeGameEngine();
-
-                      gameRefModel.gameRef.overlays.remove(PauseOverlay.id);
                       gameRefModel.gameRef.reset();
                       gameRefModel.gameRef.startGame();
-
                     },
                     child: Text('Restart'),
                   ),
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text('Exit'),
-                  ),
+                  ElevatedButton(onPressed: () {}, child: Text('Exit')),
                 ],
               ),
             ),
