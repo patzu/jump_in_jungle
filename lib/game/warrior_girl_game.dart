@@ -24,7 +24,7 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
 
   @override
   Future<void>? onLoad() async {
-    // playBackgroundMusic();
+    playBackgroundMusic();
 
     await images.loadAll(imageAssets);
 
@@ -32,7 +32,7 @@ class WarriorGirlGame extends FlameGame with TapDetector, HasCollidables {
     add(parallax);
 
     final playerData = PlayerData();
-    await playerData.onLoad();
+    await playerData.init();
 
     girlSprites = GirlSprites(scoreModel, playerData);
 

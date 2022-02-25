@@ -23,7 +23,6 @@ class GameModel extends ChangeNotifier {
   set gameState(GameStateEnum value) {
     _gameState = value;
     notifyListeners();
-    print('game state changed to:' + gameState.name);
   }
 
   PlayerStateEnum get playerState => _playerState;

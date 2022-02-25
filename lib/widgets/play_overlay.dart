@@ -22,9 +22,6 @@ class PlayOverlay extends StatelessWidget {
             TextButton(
               child: Text('Play', style: TextStyle(fontSize: 25)),
               onPressed: () {
-                print('Play overlay: ${gameRefModel.gameRef.hashCode}');
-                print('Play overlay: ${GameModel.instance.gameRef.hashCode}');
-
                 gameRefModel.gameRef.startGame();
                 gameRefModel.gameRef.overlays.remove(PlayOverlay.id);
               },

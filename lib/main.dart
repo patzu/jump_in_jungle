@@ -28,9 +28,6 @@ class MyApp extends StatelessWidget {
     final gameRef = WarriorGirlGame(scoreModel);
     final gameModel = GameModel(gameRef: gameRef);
 
-    print('main: ${gameRef.hashCode}');
-    print('main: ${gameModel.gameRef.hashCode}');
-
     return MultiProvider(
       providers: [
         ListenableProvider(create: (_) => scoreModel),

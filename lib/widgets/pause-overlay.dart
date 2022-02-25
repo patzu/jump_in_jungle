@@ -41,9 +41,6 @@ class PauseOverlay extends StatelessWidget {
                       gameRefModel.gameRef.overlays.remove(PauseOverlay.id);
                       GameModel.instance.resumeGameEngine();
 
-                      print(
-                          'Pause overlay: ${GameModel.instance.gameRef.hashCode}');
-                      print('Pause overlay: ${gameRefModel.gameRef.hashCode}');
                     },
                     child: Text('Resume'),
                   ),
