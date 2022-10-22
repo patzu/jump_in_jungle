@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:bitcoin_girl/models/spritesheet_model.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 
@@ -9,7 +10,7 @@ import 'bullet.dart';
 import 'enemy_data.dart';
 
 class Enemy extends SpriteAnimationComponent
-    with HasGameRef, HasHitboxes, Collidable {
+    with HasGameRef, CollisionCallbacks {
   SpriteSheetModel enemyData;
 
   Enemy(this.enemyData);
@@ -28,9 +29,9 @@ class Enemy extends SpriteAnimationComponent
         enemyData.imagePath, spriteAnimationData);
 
     anchor = Anchor.center;
-    addHitbox(HitboxCircle());
+    add(CircleHitbox());
 
-    _timer = Timer(Random().nextInt(5) + 4, repeat: true, autoStart: true,
+    _timer = Timer(Random().nextInt(3)+1, repeat: true, autoStart: true,
         onTick: () {
       shoot();
     });
@@ -70,7 +71,7 @@ class Enemy extends SpriteAnimationComponent
 
   @override
   void render(Canvas canvas) {
-    renderHitboxes(canvas);
+    // renderHitboxes(canvas);
 
     super.render(canvas);
   }

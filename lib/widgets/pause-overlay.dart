@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:bitcoin_girl/widgets/score_overlay_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../models/game_model.dart';
@@ -22,7 +24,7 @@ class PauseOverlay extends StatelessWidget {
           width: MediaQuery.of(context).size.width / 2,
           height: MediaQuery.of(context).size.height / 3 * 2,
           child: Card(
-            color: Colors.amber,
+            color: Colors.amber[300],
             elevation: 2,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
@@ -40,7 +42,6 @@ class PauseOverlay extends StatelessWidget {
                     onPressed: () {
                       gameRefModel.gameRef.overlays.remove(PauseOverlay.id);
                       GameModel.instance.resumeGameEngine();
-
                     },
                     child: Text('Resume'),
                   ),
@@ -51,12 +52,11 @@ class PauseOverlay extends StatelessWidget {
                       gameRefModel.gameRef.overlays.remove(PauseOverlay.id);
                       gameRefModel.gameRef.reset();
                       gameRefModel.gameRef.startGame();
-
                     },
                     child: Text('Restart'),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () => SystemNavigator.pop(),
                     child: Text('Exit'),
                   ),
                 ],

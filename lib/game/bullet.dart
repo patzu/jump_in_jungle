@@ -4,11 +4,12 @@ import 'package:bitcoin_girl/constants/constants.dart';
 import 'package:bitcoin_girl/game/enemy.dart';
 import 'package:bitcoin_girl/game/sound_manager.dart';
 import 'package:bitcoin_girl/models/spritesheet_model.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/geometry.dart';
 
 class Bullet extends SpriteAnimationComponent
-    with HasGameRef, HasHitboxes, Collidable {
+    with HasGameRef, CollisionCallbacks {
   SpriteSheetModel bulletData;
 
   Enemy bulletShooter;
@@ -28,7 +29,7 @@ class Bullet extends SpriteAnimationComponent
 
     anchor = Anchor.center;
     angle = -10;
-    addHitbox(HitboxCircle());
+    add(CircleHitbox());
 
     return super.onLoad();
   }
@@ -45,13 +46,13 @@ class Bullet extends SpriteAnimationComponent
 
   @override
   void render(Canvas canvas) {
-    renderHitboxes(canvas);
+    // renderHitboxes(canvas);
 
     super.render(canvas);
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Enemy && other != bulletShooter) {
       SoundManager.playHurtSound();
       other.removeFromParent();

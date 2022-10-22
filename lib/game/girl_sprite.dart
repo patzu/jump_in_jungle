@@ -2,9 +2,8 @@ import 'dart:ui';
 
 import 'package:bitcoin_girl/constants/constants.dart';
 import 'package:bitcoin_girl/widgets/score_overlay_model.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/geometry.dart';
-import 'package:flame_audio/flame_audio.dart';
 
 import '../models/game_model.dart';
 import '../widgets/game_over-overlay.dart';
@@ -13,7 +12,7 @@ import 'player_data.dart';
 import 'sound_manager.dart';
 
 class GirlSprites extends SpriteAnimationComponent
-    with HasGameRef, HasHitboxes, Collidable {
+    with HasGameRef, CollisionCallbacks {
   late SpriteAnimation jumpSpriteAnimation;
   late SpriteAnimation deadSpriteAnimation;
   late SpriteAnimation runSpriteAnimation;
@@ -48,7 +47,7 @@ class GirlSprites extends SpriteAnimationComponent
   void onMount() {
     anchor = Anchor.bottomCenter;
     deviceYAxisMinusGroundHeight = gameRef.size.y - ground.y + 5;
-    addHitbox(HitboxCircle());
+    add(CircleHitbox());
     position = Vector2(gameRef.size.x / 4, deviceYAxisMinusGroundHeight);
 
     _hitTimer.onTick = () => {
@@ -98,7 +97,7 @@ class GirlSprites extends SpriteAnimationComponent
 
   @override
   void render(Canvas canvas) {
-    renderHitboxes(canvas);
+    // render(canvas);
 
     if (isRunning) {
       runSpriteAnimation.getSprite().render(canvas, size: size);
@@ -123,7 +122,7 @@ class GirlSprites extends SpriteAnimationComponent
 
   jump() {
     if (isPlayerBellowTheGround()) {
-      FlameAudio.audioCache.play('jump14.wav');
+      SoundManager.playJumpAudio();
 
       velocity = Vector2(
         0,
@@ -171,7 +170,7 @@ class GirlSprites extends SpriteAnimationComponent
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, Collidable other) {
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Enemy && !isHit && !isDead) {
       hit();
     }

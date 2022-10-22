@@ -16,7 +16,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
   @override
   Future<void>? onLoad() {
     _timer = Timer(
-      Random().nextInt(2) + 3,
+      Random().nextInt(2) + 2,
       repeat: true,
       onTick: () => {
         spawnEnemy(),

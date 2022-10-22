@@ -93,7 +93,7 @@ Map<CharacterNameEnum, SpriteSheetModel> getEnemiesMap() {
       characterName: CharacterNameEnum.ghost,
     ),
     CharacterNameEnum.mushroom: SpriteSheetModel(
-        imagePath: 'enemies/mushroom/run (32x32).png',
+      imagePath: 'enemies/mushroom/run (32x32).png',
       characterPosition: Vector2(500, 200),
       amountsOfSpritesInSpriteSheet: 16,
       stepTimeBetweenEachSprite: 0.05,
@@ -201,7 +201,7 @@ Map<CharacterNameEnum, SpriteSheetModel> getCharactersBullet() {
   };
 }
 
- const imageAssets = [
+const imageAssets = [
   'dead.png',
   'hit.png',
   'jump.png',
@@ -212,6 +212,11 @@ Map<CharacterNameEnum, SpriteSheetModel> getCharactersBullet() {
   'parallax/plx-4.png',
   'parallax/plx-5.png',
   'parallax/plx-6.png',
+  'parallax/plain/sheet1.png',
+  'parallax/plain/sheet2.png',
+  'parallax/plain/sheet3.png',
+  'parallax/plain/sheet4.png',
+  'parallax/plain/sheet5.png',
   'enemies/angry_pig/Run (36x30).png',
   'enemies/angry_pig/Walk (36x30).png',
   'enemies/bat/Flying (46x30).png',

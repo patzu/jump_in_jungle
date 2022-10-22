@@ -1,3 +1,4 @@
+import 'package:bitcoin_girl/game/sound_manager.dart';
 import 'package:bitcoin_girl/game/warrior_girl_game.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -6,7 +7,7 @@ class GameModel extends ChangeNotifier {
   GameStateEnum _gameState = GameStateEnum.pause;
   PlayerStateEnum _playerState = PlayerStateEnum.alive;
 
-  //This is the private constructor for GameModel class
+  //Private constructor for GameModel class
   GameModel._privateConstructor();
 
   //Creating a unique reference to the same object
@@ -60,11 +61,13 @@ class GameModel extends ChangeNotifier {
   pauseGameEngine() {
     gameState = GameStateEnum.pause;
     gameRef.pauseEngine();
+    SoundManager.pauseBackgroundMusic();
   }
 
   resumeGameEngine() {
     gameState = GameStateEnum.resume;
     gameRef.resumeEngine();
+    SoundManager.resumeBackgroundMusic();
   }
 }
 

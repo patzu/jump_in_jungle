@@ -11,18 +11,18 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flame: ^1.0.0
-  cupertino_icons: ^1.0.4
-  flame_audio: ^1.0.0
-  provider: ^6.0.2
-  hive: ^2.0.5
+  flame: ^1.4.0
+  cupertino_icons: ^1.0.5
+  flame_audio: ^1.3.2
+  provider: ^6.0.4
+  hive: ^2.2.3
 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
 
 flutter:
   uses-material-design: true
@@ -32,6 +32,7 @@ flutter:
     - assets/
     - assets/audio/
     - assets/images/parallax/
+    - assets/images/parallax/plain/
     - assets/images/enemies/angry_pig/
     - assets/images/enemies/bat/
     - assets/images/enemies/blue_bird/

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:bitcoin_girl/widgets/score_overlay_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../models/game_model.dart';
@@ -46,7 +48,7 @@ class GameOverOverlay extends StatelessWidget {
                     },
                     child: Text('Restart'),
                   ),
-                  ElevatedButton(onPressed: () {}, child: Text('Exit')),
+                  ElevatedButton(onPressed: () => SystemNavigator.pop(), child: Text('Exit')),
                 ],
               ),
             ),
