@@ -1,22 +1,23 @@
-import 'dart:io';
 import 'dart:ui';
 
-import 'package:bitcoin_girl/widgets/score_overlay_model.dart';
+import 'package:bitcoin_girl/widgets/score_overlay_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/game_model.dart';
+import '../models/game_notifier.dart';
 
-class PauseOverlay extends StatelessWidget {
+class PauseOverlay extends ConsumerWidget {
   static const String id = 'PauseOverlay';
 
   const PauseOverlay({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final gameRefModel = context.read<GameModel>();
-    final scoreOverlayModel = context.read<ScoreOverlayModel>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scoreOverlayProviderWatch = ref.watch(scoreOverlayProvider);
+    final gameProviderRead = ref.read(gameProvider);
+    final gameNotifier = ref.read(gameProvider.notifier);
+
     return Center(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
@@ -36,22 +37,22 @@ class PauseOverlay extends StatelessWidget {
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Text('Your Score is: ${scoreOverlayModel.score}',
+                  Text('Your Score is: ${scoreOverlayProviderWatch.score}',
                       style: TextStyle(fontSize: 25)),
                   ElevatedButton(
                     onPressed: () {
-                      gameRefModel.gameRef.overlays.remove(PauseOverlay.id);
-                      GameModel.instance.resumeGameEngine();
+                      gameProviderRead.gameRef?.overlays.remove(PauseOverlay.id);
+                      gameNotifier.resumeGameEngine();
                     },
                     child: Text('Resume'),
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      gameRefModel.resumeGameEngine();
+                      gameNotifier.resumeGameEngine();
 
-                      gameRefModel.gameRef.overlays.remove(PauseOverlay.id);
-                      gameRefModel.gameRef.reset();
-                      gameRefModel.gameRef.startGame();
+                      gameProviderRead.gameRef?.overlays.remove(PauseOverlay.id);
+                      gameProviderRead.gameRef?.reset();
+                      gameProviderRead.gameRef?.startGame();
                     },
                     child: Text('Restart'),
                   ),

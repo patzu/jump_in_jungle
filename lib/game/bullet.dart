@@ -2,19 +2,19 @@ import 'dart:ui';
 
 import 'package:bitcoin_girl/constants/constants.dart';
 import 'package:bitcoin_girl/game/enemy.dart';
-import 'package:bitcoin_girl/game/sound_manager.dart';
+import 'package:bitcoin_girl/game/sound_manager_notifier.dart';
 import 'package:bitcoin_girl/models/spritesheet_model.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/geometry.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Bullet extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {
   SpriteSheetModel bulletData;
-
   Enemy bulletShooter;
+  WidgetRef ref;
 
-  Bullet(this.bulletShooter, this.bulletData);
+  Bullet(this.bulletShooter, this.bulletData, this.ref);
 
   @override
   Future<void>? onLoad() async {
@@ -54,7 +54,9 @@ class Bullet extends SpriteAnimationComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Enemy && other != bulletShooter) {
-      SoundManager.playHurtSound();
+      ref
+          .read<SoundManagerNotifier>(soundManagerProvider.notifier)
+          .playHurtSound();
       other.removeFromParent();
       removeFromParent();
     }

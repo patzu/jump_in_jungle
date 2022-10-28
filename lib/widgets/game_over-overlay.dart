@@ -1,22 +1,22 @@
-import 'dart:io';
 import 'dart:ui';
 
-import 'package:bitcoin_girl/widgets/score_overlay_model.dart';
+import 'package:bitcoin_girl/widgets/score_overlay_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/game_model.dart';
+import '../models/game_notifier.dart';
 
-class GameOverOverlay extends StatelessWidget {
+class GameOverOverlay extends ConsumerWidget {
   static const String id = 'GameOverOverlay';
 
   const GameOverOverlay({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final gameRefModel = context.read<GameModel>();
-    final scoreOverlayModel = context.read<ScoreOverlayModel>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final gameProviderRead = ref.read(gameProvider);
+    final gameProviderNotifier = ref.read(gameProvider.notifier);
+    final scoreOverlayProviderRead = ref.read(scoreOverlayProvider);
     return Center(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 2, sigmaY: 2),
@@ -37,18 +37,21 @@ class GameOverOverlay extends StatelessWidget {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   Text('GAME OVER', style: TextStyle(fontSize: 25)),
-                  Text('Score: ${scoreOverlayModel.score}',
+                  Text('Score: ${scoreOverlayProviderRead.score}',
                       style: TextStyle(fontSize: 25)),
                   ElevatedButton(
                     onPressed: () {
-                      gameRefModel.gameRef.overlays.remove(GameOverOverlay.id);
-                      gameRefModel.resumeGameEngine();
-                      gameRefModel.gameRef.reset();
-                      gameRefModel.gameRef.startGame();
+                      gameProviderRead.gameRef?.overlays
+                          .remove(GameOverOverlay.id);
+                      gameProviderNotifier.resumeGameEngine();
+                      gameProviderRead.gameRef?.reset();
+                      gameProviderRead.gameRef?.startGame();
                     },
                     child: Text('Restart'),
                   ),
-                  ElevatedButton(onPressed: () => SystemNavigator.pop(), child: Text('Exit')),
+                  ElevatedButton(
+                      onPressed: () => SystemNavigator.pop(),
+                      child: Text('Exit')),
                 ],
               ),
             ),

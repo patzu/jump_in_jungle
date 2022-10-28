@@ -1,15 +1,18 @@
-import 'package:bitcoin_girl/models/game_model.dart';
+import 'package:bitcoin_girl/game/sound_manager_notifier.dart';
+import 'package:bitcoin_girl/models/game_notifier.dart';
+import 'package:bitcoin_girl/widgets/score_overlay_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PlayOverlay extends StatelessWidget {
+class PlayOverlay extends ConsumerWidget {
   static String id = 'PauseModal';
 
   const PlayOverlay({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    final gameRefModel = context.read<GameModel>();
+  Widget build(BuildContext context,WidgetRef ref) {
+    final gameProviderRead = ref.read(gameProvider);
+
 
     return Center(
       child: Container(
@@ -22,8 +25,8 @@ class PlayOverlay extends StatelessWidget {
             TextButton(
               child: Text('Play', style: TextStyle(fontSize: 25)),
               onPressed: () {
-                gameRefModel.gameRef.startGame();
-                gameRefModel.gameRef.overlays.remove(PlayOverlay.id);
+                gameProviderRead.gameRef?.startGame();
+                gameProviderRead.gameRef?.overlays.remove(PlayOverlay.id);
               },
             ),
             SizedBox(height: 20),

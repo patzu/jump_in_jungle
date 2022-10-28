@@ -1,60 +1,62 @@
 import 'package:bitcoin_girl/widgets/pause-overlay.dart';
+import 'package:bitcoin_girl/widgets/pushButton.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/game_model.dart';
-import 'score_overlay_model.dart';
+import '../models/game_notifier.dart';
+import 'score_overlay_notifier.dart';
 
-class ScoreOverlay extends StatelessWidget {
+class ScoreOverlay extends ConsumerWidget {
   static const String id = 'ScoreOverlay';
 
-  const ScoreOverlay({Key? key}) : super(key: key);
+  ScoreOverlay({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    ScoreOverlayModel scoreModel = context.watch<ScoreOverlayModel>();
-    final gameRefModel = context.read<GameModel>();
-
-    IconData _iconData = Icons.pause;
+  Widget build(BuildContext context, WidgetRef ref) {
+    ScoreOverlayState watchScoreOverlayState = ref.watch(scoreOverlayProvider);
+    GameState readGameState = ref.read(gameProvider);
+    GameNotifier gameNotifier = ref.read(gameProvider.notifier);
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Row(
-          children: [
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Score: ' + scoreModel.score.toString(),
-                  style: TextStyle(fontSize: 20, color: Colors.white70),
-                ),
-                Text(
-                  'High: ' + scoreModel.highScore.toString(),
-                  style: TextStyle(fontSize: 20, color: Colors.white70),
-                ),
-              ],
-            ),
-            //This sizedbox is for centering pause icon inside row widget, I couldn't find better workaround!
-            SizedBox(width: 48),
-          ],
-        ),
-        GestureDetector(
-          onTap: () {
-            gameRefModel.gameRef.overlays.add(PauseOverlay.id);
-            GameModel.instance.pauseGameEngine();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(_iconData, size: 30, color: Colors.white70),
+        Container(
+          width: MediaQuery.of(context).size.width / 2 - 40,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              PushButton(),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Score: ${watchScoreOverlayState.score}',
+                    style: TextStyle(fontSize: 20, color: Colors.white70),
+                  ),
+                  Text(
+                    'HighScore: ${watchScoreOverlayState.highScore}',
+                    style: TextStyle(fontSize: 20, color: Colors.white70),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
+        IconButton(
+          onPressed: () {
+            readGameState.gameRef?.overlays.add(PauseOverlay.id);
+            gameNotifier.pauseGameEngine();
+          },
+          icon: Icon(Icons.pause, size: 30, color: Colors.white70),
+        ),
+        Spacer(),
         Row(
           children: List.generate(
             5,
             (index) {
-              if (index < scoreModel.lives) {
+              if (index < watchScoreOverlayState.lives) {
                 return Icon(Icons.favorite, color: Colors.red);
               } else {
                 return Icon(Icons.favorite_border, color: Colors.red);
@@ -62,6 +64,7 @@ class ScoreOverlay extends StatelessWidget {
             },
           ),
         ),
+        Spacer(),
       ],
     );
   }

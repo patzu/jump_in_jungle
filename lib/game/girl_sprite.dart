@@ -1,15 +1,16 @@
 import 'dart:ui';
 
 import 'package:bitcoin_girl/constants/constants.dart';
-import 'package:bitcoin_girl/widgets/score_overlay_model.dart';
+import 'package:bitcoin_girl/game/sound_manager_notifier.dart';
+import 'package:bitcoin_girl/widgets/score_overlay_notifier.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/game_model.dart';
+import '../models/game_notifier.dart';
 import '../widgets/game_over-overlay.dart';
 import 'enemy.dart';
 import 'player_data.dart';
-import 'sound_manager.dart';
 
 class GirlSprites extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {
@@ -25,13 +26,25 @@ class GirlSprites extends SpriteAnimationComponent
   bool isDead = false;
   bool isHit = false;
 
-  final ScoreOverlayModel scoreModel;
   final PlayerData playerData;
 
   double deviceYAxisMinusGroundHeight = 0;
   final Timer _hitTimer = Timer(1.2);
+  WidgetRef ref;
+  late final SoundManagerNotifier soundManagerNotifier;
+  late final GameState readGameState;
+  late final GameNotifier gameNotifier;
+  late final ScoreOverlayState readScoreOverlayState;
+  late final ScoreOverlayNotifier scoreOverlayNotifier;
 
-  GirlSprites(this.scoreModel, this.playerData) : super(priority: 1);
+  GirlSprites(this.playerData, this.ref) : super(priority: 1) {
+    readScoreOverlayState = ref.read(scoreOverlayProvider);
+    scoreOverlayNotifier = ref.read(scoreOverlayProvider.notifier);
+
+    soundManagerNotifier = ref.read(soundManagerProvider.notifier);
+    readGameState = ref.read(gameProvider);
+    gameNotifier = ref.read(gameProvider.notifier);
+  }
 
   @override
   Future<void>? onLoad() {
@@ -84,9 +97,9 @@ class GirlSprites extends SpriteAnimationComponent
     if (isDead != true) {
       run();
     }
-    if (GameModel.instance.playerState == PlayerStateEnum.dead) {
+    if (readGameState.playerState == PlayerStateEnum.dead) {
       Future.delayed(Duration(seconds: 1)).then((value) {
-        GameModel.instance.pauseGameEngine();
+        gameNotifier.pauseGameEngine();
         gameRef.overlays.add(GameOverOverlay.id);
       });
     }
@@ -122,7 +135,7 @@ class GirlSprites extends SpriteAnimationComponent
 
   jump() {
     if (isPlayerBellowTheGround()) {
-      SoundManager.playJumpAudio();
+      soundManagerNotifier.playJumpAudio();
 
       velocity = Vector2(
         0,
@@ -145,7 +158,7 @@ class GirlSprites extends SpriteAnimationComponent
     isDead = true;
     isJumping = false;
     isRunning = false;
-    GameModel.instance.playerState = PlayerStateEnum.dead;
+    gameNotifier.setPlayerState(PlayerStateEnum.dead);
   }
 
   idle() {
@@ -155,9 +168,9 @@ class GirlSprites extends SpriteAnimationComponent
   }
 
   hit() {
-    SoundManager.playHurtSound();
-    scoreModel.lives -= 1;
-    if (scoreModel.lives == 0) {
+    soundManagerNotifier.playHurtSound();
+    scoreOverlayNotifier.livesReducerByOne();
+    if (readScoreOverlayState.lives == 0) {
       dead();
     } else {
       _hitTimer.start();

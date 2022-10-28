@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../constants/constants.dart';
 import '../models/spritesheet_model.dart';
@@ -12,6 +13,9 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
   late Timer _timer;
   late Enemy enemy;
   final Random _random = Random();
+  WidgetRef ref;
+
+  EnemyManager(this.ref);
 
   @override
   Future<void>? onLoad() {
@@ -28,7 +32,7 @@ class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
 
   spawnEnemy() {
     SpriteSheetModel enemyData = getRandomEnemy()!;
-    enemy = Enemy(enemyData);
+    enemy = Enemy(enemyData,ref);
     enemy.position = Vector2(gameRef.size.x,
         gameRef.size.y - ground.y - enemyData.spriteSizeOnCanvas.y / 2 + 10);
 

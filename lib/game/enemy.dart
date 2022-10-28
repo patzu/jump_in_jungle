@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:bitcoin_girl/models/spritesheet_model.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/geometry.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'bullet.dart';
 import 'enemy_data.dart';
@@ -12,8 +12,9 @@ import 'enemy_data.dart';
 class Enemy extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {
   SpriteSheetModel enemyData;
+  WidgetRef ref;
 
-  Enemy(this.enemyData);
+  Enemy(this.enemyData, this.ref);
 
   late Timer _timer;
 
@@ -31,7 +32,7 @@ class Enemy extends SpriteAnimationComponent
     anchor = Anchor.center;
     add(CircleHitbox());
 
-    _timer = Timer(Random().nextInt(3)+1, repeat: true, autoStart: true,
+    _timer = Timer(Random().nextInt(3) + 1, repeat: true, autoStart: true,
         onTick: () {
       shoot();
     });
@@ -62,7 +63,7 @@ class Enemy extends SpriteAnimationComponent
     if (enemyData.characterName == CharacterNameEnum.bee) {
       SpriteSheetModel bulletData =
           getCharactersBullet()[CharacterNameEnum.bee]!;
-      final bullet = Bullet(this, bulletData);
+      final bullet = Bullet(this, bulletData, ref);
       bullet.size = bulletData.spriteSizeOnCanvas;
       bullet.position = Vector2(position.x, position.y + size.y / 2);
       gameRef.add(bullet);
