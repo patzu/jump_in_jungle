@@ -32,17 +32,13 @@ class GirlSprites extends SpriteAnimationComponent
   final Timer _hitTimer = Timer(1.2);
   WidgetRef ref;
   late final SoundManagerNotifier soundManagerNotifier;
-  late final GameState readGameState;
   late final GameNotifier gameNotifier;
-  late final ScoreOverlayState readScoreOverlayState;
   late final ScoreOverlayNotifier scoreOverlayNotifier;
 
   GirlSprites(this.playerData, this.ref) : super(priority: 1) {
-    readScoreOverlayState = ref.read(scoreOverlayProvider);
     scoreOverlayNotifier = ref.read(scoreOverlayProvider.notifier);
 
     soundManagerNotifier = ref.read(soundManagerProvider.notifier);
-    readGameState = ref.read(gameProvider);
     gameNotifier = ref.read(gameProvider.notifier);
   }
 
@@ -97,7 +93,7 @@ class GirlSprites extends SpriteAnimationComponent
     if (isDead != true) {
       run();
     }
-    if (readGameState.playerState == PlayerStateEnum.dead) {
+    if (gameNotifier.getPlayerState() == PlayerStateEnum.dead) {
       Future.delayed(Duration(seconds: 1)).then((value) {
         gameNotifier.pauseGameEngine();
         gameRef.overlays.add(GameOverOverlay.id);
@@ -170,7 +166,7 @@ class GirlSprites extends SpriteAnimationComponent
   hit() {
     soundManagerNotifier.playHurtSound();
     scoreOverlayNotifier.livesReducerByOne();
-    if (readScoreOverlayState.lives == 0) {
+    if (scoreOverlayNotifier.getLives() == 0) {
       dead();
     } else {
       _hitTimer.start();

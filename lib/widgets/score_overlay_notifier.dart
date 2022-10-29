@@ -23,8 +23,16 @@ class ScoreOverlayNotifier extends StateNotifier<ScoreOverlayState> {
     state = state.copyWith(score: score);
   }
 
+  int getScore() {
+    return state.score;
+  }
+
   setLives(int lives) {
     state = state.copyWith(lives: lives);
+  }
+
+  int getLives() {
+    return state.lives;
   }
 
   addScoreByOne() {

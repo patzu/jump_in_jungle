@@ -33,8 +33,16 @@ class GameNotifier extends StateNotifier<GameState> {
     state = state.copyWith(playerState: playerState);
   }
 
+  PlayerStateEnum getPlayerState() {
+    return state.playerState;
+  }
+
   setGameState(GameStateEnum gameState) {
     state = state.copyWith(gameState: gameState);
+  }
+
+  GameStateEnum getGameState() {
+    return state.gameState;
   }
 
   setGameRef(WarriorGirlGame gameRef) {

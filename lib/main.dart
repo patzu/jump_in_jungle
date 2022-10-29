@@ -1,5 +1,4 @@
 import 'package:bitcoin_girl/game/warrior_girl_game.dart';
-import 'package:bitcoin_girl/models/game_notifier.dart';
 import 'package:bitcoin_girl/widgets/game_over-overlay.dart';
 import 'package:bitcoin_girl/widgets/pause-overlay.dart';
 import 'package:bitcoin_girl/widgets/play_overlay.dart';

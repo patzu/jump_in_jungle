@@ -22,7 +22,6 @@ class WarriorGirlGame extends FlameGame
   late GirlSprites girlSprites;
   late final ScoreOverlayNotifier scoreOverlayNotifier;
   late final GameNotifier gameNotifier;
-  late final GameState readGameState;
   late final EnemyManager enemyManager;
 
   WarriorGirlGame(this.ref);
@@ -36,7 +35,6 @@ class WarriorGirlGame extends FlameGame
   Future<void>? onLoad() async {
     enemyManager = EnemyManager(ref);
     gameNotifier = ref.read(gameProvider.notifier);
-    readGameState = ref.read(gameProvider);
     scoreOverlayNotifier = ref.read(scoreOverlayProvider.notifier);
 
     await images.loadAll(imageAssets);
@@ -55,7 +53,7 @@ class WarriorGirlGame extends FlameGame
 
   @override
   void update(double dt) {
-    if (readGameState.gameState == GameStateEnum.resume) {
+    if (gameNotifier.getGameState() == GameStateEnum.resume) {
       scoreOverlayNotifier.addScoreByOne();
     }
 
