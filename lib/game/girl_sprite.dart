@@ -165,7 +165,7 @@ class GirlSprites extends SpriteAnimationComponent
 
   hit() {
     soundManagerNotifier.playHurtSound();
-    scoreOverlayNotifier.livesReducerByOne();
+    scoreOverlayNotifier.SubtractLivesByOne();
     if (scoreOverlayNotifier.getLives() == 0) {
       dead();
     } else {

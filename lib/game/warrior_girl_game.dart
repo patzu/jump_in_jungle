@@ -2,9 +2,10 @@ import 'package:flame/components.dart';
 import 'package:flame/game.dart';
 import 'package:flame/input.dart';
 import 'package:flame/parallax.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jump_in_jungle/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/game_notifier.dart';
 import '../widgets/score_overlay.dart';
@@ -23,6 +24,7 @@ class WarriorGirlGame extends FlameGame
   late final ScoreOverlayNotifier scoreOverlayNotifier;
   late final GameNotifier gameNotifier;
   late final EnemyManager enemyManager;
+  late final SharedPreferences shared;
 
   WarriorGirlGame(this.ref);
 
@@ -48,6 +50,13 @@ class WarriorGirlGame extends FlameGame
 
     girlSprites = GirlSprites(playerData, ref);
 
+    shared = ref.read(sharedPreferencesProvider);
+    if (shared.containsKey('highScore')) {
+      scoreOverlayNotifier.setHighScore(shared.getInt('highScore')!);
+    } else {
+      shared.setInt('highScore', 0);
+    }
+
     return super.onLoad();
   }
 
@@ -55,6 +64,10 @@ class WarriorGirlGame extends FlameGame
   void update(double dt) {
     if (gameNotifier.getGameState() == GameStateEnum.resume) {
       scoreOverlayNotifier.addScoreByOne();
+      if (scoreOverlayNotifier.getScore() >= shared.getInt('highScore')!) {
+        scoreOverlayNotifier.setHighScore(scoreOverlayNotifier.getScore());
+        shared.setInt('highScore', scoreOverlayNotifier.getScore());
+      }
     }
 
     super.update(dt);
@@ -70,6 +83,8 @@ class WarriorGirlGame extends FlameGame
       add(girlSprites..size = Vector2(40, 50));
       add(enemyManager);
       scoreOverlayNotifier.setScore(0);
+      scoreOverlayNotifier.setHighScore(
+          ref.read(sharedPreferencesProvider).getInt('highScore')!);
       scoreOverlayNotifier.setLives(5);
     });
   }

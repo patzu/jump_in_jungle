@@ -47,7 +47,7 @@ class ScoreOverlayNotifier extends StateNotifier<ScoreOverlayState> {
     state = state.copyWith(lives: state.lives + 1);
   }
 
-  livesReducerByOne() {
+  SubtractLivesByOne() {
     state = state.copyWith(lives: state.lives - 1);
   }
 
