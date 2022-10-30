@@ -1,6 +1,7 @@
-import 'package:bitcoin_girl/game/sound_manager_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../game/sound_manager_notifier.dart';
 
 class PushButton extends ConsumerStatefulWidget {
   const PushButton({Key? key}) : super(key: key);

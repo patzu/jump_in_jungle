@@ -1,11 +1,11 @@
 import 'dart:ui';
 
-import 'package:bitcoin_girl/widgets/score_overlay_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/game_notifier.dart';
+import 'score_overlay_notifier.dart';
 
 class GameOverOverlay extends ConsumerWidget {
   static const String id = 'GameOverOverlay';

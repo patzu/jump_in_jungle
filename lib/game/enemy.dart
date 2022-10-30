@@ -1,11 +1,11 @@
 import 'dart:math';
 import 'dart:ui';
 
-import 'package:bitcoin_girl/models/spritesheet_model.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/spritesheet_model.dart';
 import 'bullet.dart';
 import 'enemy_data.dart';
 

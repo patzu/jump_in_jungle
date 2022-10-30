@@ -1,12 +1,13 @@
 import 'dart:ui';
 
-import 'package:bitcoin_girl/constants/constants.dart';
-import 'package:bitcoin_girl/game/enemy.dart';
-import 'package:bitcoin_girl/game/sound_manager_notifier.dart';
-import 'package:bitcoin_girl/models/spritesheet_model.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../constants/constants.dart';
+import '../models/spritesheet_model.dart';
+import 'enemy.dart';
+import 'sound_manager_notifier.dart';
 
 class Bullet extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {

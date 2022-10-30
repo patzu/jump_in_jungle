@@ -1,16 +1,16 @@
 import 'dart:ui';
 
-import 'package:bitcoin_girl/constants/constants.dart';
-import 'package:bitcoin_girl/game/sound_manager_notifier.dart';
-import 'package:bitcoin_girl/widgets/score_overlay_notifier.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../constants/constants.dart';
 import '../models/game_notifier.dart';
 import '../widgets/game_over-overlay.dart';
+import '../widgets/score_overlay_notifier.dart';
 import 'enemy.dart';
 import 'player_data.dart';
+import 'sound_manager_notifier.dart';
 
 class GirlSprites extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {

@@ -1,9 +1,9 @@
-import 'package:bitcoin_girl/widgets/pause-overlay.dart';
-import 'package:bitcoin_girl/widgets/pushButton.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/game_notifier.dart';
+import 'pause-overlay.dart';
+import 'pushButton.dart';
 import 'score_overlay_notifier.dart';
 
 class ScoreOverlay extends ConsumerWidget {

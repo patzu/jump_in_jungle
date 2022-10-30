@@ -1,12 +1,13 @@
-import 'package:bitcoin_girl/game/warrior_girl_game.dart';
-import 'package:bitcoin_girl/widgets/game_over-overlay.dart';
-import 'package:bitcoin_girl/widgets/pause-overlay.dart';
-import 'package:bitcoin_girl/widgets/play_overlay.dart';
-import 'package:bitcoin_girl/widgets/score_overlay.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jump_in_jungle/widgets/score_overlay.dart';
+
+import 'game/warrior_girl_game.dart';
+import 'widgets/game_over-overlay.dart';
+import 'widgets/pause-overlay.dart';
+import 'widgets/play_overlay.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

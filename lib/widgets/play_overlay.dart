@@ -1,8 +1,7 @@
-import 'package:bitcoin_girl/game/sound_manager_notifier.dart';
-import 'package:bitcoin_girl/models/game_notifier.dart';
-import 'package:bitcoin_girl/widgets/score_overlay_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../models/game_notifier.dart';
 
 class PlayOverlay extends ConsumerWidget {
   static String id = 'PauseModal';

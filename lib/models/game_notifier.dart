@@ -1,7 +1,7 @@
-import 'package:bitcoin_girl/game/sound_manager_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../game/sound_manager_notifier.dart';
 import '../game/warrior_girl_game.dart';
 
 part 'game_notifier.freezed.dart';
