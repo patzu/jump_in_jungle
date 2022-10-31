@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jungler/widgets/score_overlay_notifier.dart';
 
 import '../models/spritesheet_model.dart';
 import 'bullet.dart';
@@ -36,6 +37,10 @@ class Enemy extends SpriteAnimationComponent
         onTick: () {
       shoot();
     });
+
+    int score = ref.read(scoreOverlayProvider.notifier).getScore();
+
+    enemyData.speed = enemyData.speed + score / 1000 + Random().nextInt(2).toDouble()+1;
 
     return super.onLoad();
   }

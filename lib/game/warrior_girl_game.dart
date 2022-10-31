@@ -4,7 +4,7 @@ import 'package:flame/input.dart';
 import 'package:flame/parallax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jump_in_jungle/main.dart';
+import 'package:jungler/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/game_notifier.dart';
@@ -25,6 +25,7 @@ class WarriorGirlGame extends FlameGame
   late final GameNotifier gameNotifier;
   late final EnemyManager enemyManager;
   late final SharedPreferences shared;
+  late final ParallaxComponent parallaxComponent;
 
   WarriorGirlGame(this.ref);
 
@@ -41,9 +42,9 @@ class WarriorGirlGame extends FlameGame
 
     await images.loadAll(imageAssets);
 
-    final parallax = await backgroundParallaxComponent();
-    // final parallax = await plainParallaxComponent();
-    add(parallax);
+    parallaxComponent = await backgroundParallaxComponent();
+    // final parallaxComponent = await plainParallaxComponent();
+    add(parallaxComponent);
 
     final playerData = PlayerData();
     await playerData.init();
@@ -70,6 +71,14 @@ class WarriorGirlGame extends FlameGame
       }
     }
 
+    int score = scoreOverlayNotifier.getScore();
+    if (score % 15 == 0) {
+      var layers = parallaxComponent.parallax!.layers;
+      for (var element in layers) {
+        element.velocityMultiplier =
+            element.velocityMultiplier + Vector2(score / 100000, 0);
+      }
+    }
     super.update(dt);
   }
 
@@ -86,6 +95,14 @@ class WarriorGirlGame extends FlameGame
       scoreOverlayNotifier.setHighScore(
           ref.read(sharedPreferencesProvider).getInt('highScore')!);
       scoreOverlayNotifier.setLives(5);
+
+      var layers = parallaxComponent.parallax!.layers;
+      layers[0].velocityMultiplier = Vector2(0, 0);
+      layers[1].velocityMultiplier = Vector2(1.1, 0);
+      layers[2].velocityMultiplier = Vector2(1.3, 0);
+      layers[3].velocityMultiplier = Vector2(1.6, 0);
+      layers[4].velocityMultiplier = Vector2(3, 0);
+      layers[5].velocityMultiplier = Vector2(1.8, 0);
     });
   }
 

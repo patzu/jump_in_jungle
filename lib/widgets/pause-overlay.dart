@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jump_in_jungle/main.dart';
+import 'package:jungler/main.dart';
 
 import '../models/game_notifier.dart';
 import 'score_overlay_notifier.dart';

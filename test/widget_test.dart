@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jump_in_jungle/main.dart';
+import 'package:jungler/main.dart';
 
 
 void main() {

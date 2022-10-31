@@ -2,7 +2,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jump_in_jungle/widgets/score_overlay.dart';
+import 'package:jungler/widgets/score_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'game/warrior_girl_game.dart';
