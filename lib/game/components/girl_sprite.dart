@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jungler/constants/constants.dart';
+import 'package:jungler/game/player_data.dart';
+import 'package:jungler/notifiers/game_notifier.dart';
+import 'package:jungler/notifiers/score_overlay_notifier.dart';
+import 'package:jungler/notifiers/sound_manager_notifier.dart';
+import 'package:jungler/screens/overlays/game_over-overlay.dart';
 
-import '../constants/constants.dart';
-import '../models/game_notifier.dart';
-import '../widgets/game_over-overlay.dart';
-import '../widgets/score_overlay_notifier.dart';
 import 'enemy.dart';
-import 'player_data.dart';
-import 'sound_manager_notifier.dart';
 
 class GirlSprites extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {

@@ -7,40 +7,54 @@ part 'sound_manager_notifier.freezed.dart';
 @freezed
 class SoundManagerState with _$SoundManagerState {
   const factory SoundManagerState({
-    @Default(false) bool bgmStatus,
+    @Default(false) bool isBackgroundMusicPlaying,
+    @Default(true) bool isHurtSoundPlaying,
+    @Default(true) bool isJumpSoundPlaying,
   }) = _SoundManagerState;
 }
 
 class SoundManagerNotifier extends StateNotifier<SoundManagerState> {
   SoundManagerNotifier() : super(SoundManagerState());
 
+  setIsHurtSoundPlaying(bool value) {
+    state = state.copyWith(isHurtSoundPlaying: value);
+  }
+
+  setIsJumpSoundPlaying(bool value) {
+    state = state.copyWith(isJumpSoundPlaying: value);
+  }
+
   void playHurtSound() {
-    FlameAudio.play('hurt7.wav');
+    if (state.isHurtSoundPlaying) {
+      FlameAudio.play('hurt7.wav');
+    }
   }
 
   void playJumpAudio() {
-    FlameAudio.play('jump14.wav');
+    if (state.isJumpSoundPlaying) {
+      FlameAudio.play('jump14.wav');
+    }
   }
 
   void playBackgroundMusic() {
     FlameAudio.bgm.initialize();
     FlameAudio.bgm.play('bgmj.mp3');
-    state = state.copyWith(bgmStatus: true);
+    state = state.copyWith(isBackgroundMusicPlaying: true);
   }
 
   void pauseBackgroundMusic() {
     FlameAudio.bgm.pause();
-    state = state.copyWith(bgmStatus: false);
+    state = state.copyWith(isBackgroundMusicPlaying: false);
   }
 
   void resumeBackgroundMusic() {
     FlameAudio.bgm.resume();
-    state = state.copyWith(bgmStatus: true);
+    state = state.copyWith(isBackgroundMusicPlaying: true);
   }
 
   void stopBackgroundMusic() {
     FlameAudio.bgm.stop();
-    state = state.copyWith(bgmStatus: false);
+    state = state.copyWith(isBackgroundMusicPlaying: false);
   }
 }
 

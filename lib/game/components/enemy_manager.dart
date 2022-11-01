@@ -2,14 +2,15 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jungler/constants/constants.dart';
+import 'package:jungler/constants/enums.dart';
+import 'package:jungler/game/enemy_data.dart';
+import 'package:jungler/game/jungler_game.dart';
+import 'package:jungler/notifiers/spritesheet_model.dart';
 
-import '../constants/constants.dart';
-import '../models/spritesheet_model.dart';
 import 'enemy.dart';
-import 'enemy_data.dart';
-import 'warrior_girl_game.dart';
 
-class EnemyManager extends Component with HasGameRef<WarriorGirlGame> {
+class EnemyManager extends Component with HasGameRef<JunglerGame> {
   late Timer _timer;
   late Enemy enemy;
   final Random _random = Random();

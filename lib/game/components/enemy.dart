@@ -4,11 +4,11 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:jungler/widgets/score_overlay_notifier.dart';
-
-import '../models/spritesheet_model.dart';
-import 'bullet.dart';
-import 'enemy_data.dart';
+import 'package:jungler/constants/enums.dart';
+import 'package:jungler/game/components/bullet.dart';
+import 'package:jungler/game/enemy_data.dart';
+import 'package:jungler/notifiers/score_overlay_notifier.dart';
+import 'package:jungler/notifiers/spritesheet_model.dart';
 
 class Enemy extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {
@@ -40,7 +40,11 @@ class Enemy extends SpriteAnimationComponent
 
     int score = ref.read(scoreOverlayProvider.notifier).getScore();
 
-    enemyData.speed = enemyData.speed + score / 1000 + Random().nextInt(2).toDouble()+1;
+    enemyData = enemyData.copyWith(
+        speed: enemyData.speed +
+            score / 1000 +
+            Random().nextInt(2).toDouble() +
+            1);
 
     return super.onLoad();
   }

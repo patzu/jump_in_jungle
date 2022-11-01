@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jungler/notifiers/game_notifier.dart';
 
-import '../models/game_notifier.dart';
 
 class PlayOverlay extends ConsumerWidget {
   static String id = 'PauseModal';

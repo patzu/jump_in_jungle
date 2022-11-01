@@ -3,11 +3,11 @@ import 'dart:ui';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jungler/constants/constants.dart';
+import 'package:jungler/game/components/enemy.dart';
+import 'package:jungler/notifiers/sound_manager_notifier.dart';
+import 'package:jungler/notifiers/spritesheet_model.dart';
 
-import '../constants/constants.dart';
-import '../models/spritesheet_model.dart';
-import 'enemy.dart';
-import 'sound_manager_notifier.dart';
 
 class Bullet extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {

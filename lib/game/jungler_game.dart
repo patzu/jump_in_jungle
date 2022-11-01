@@ -4,20 +4,19 @@ import 'package:flame/input.dart';
 import 'package:flame/parallax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:jungler/game/components/enemy_manager.dart';
+import 'package:jungler/game/components/girl_sprite.dart';
+import 'package:jungler/game/enemy_data.dart';
+import 'package:jungler/game/jungler_game.dart';
+import 'package:jungler/game/player_data.dart';
 import 'package:jungler/main.dart';
+import 'package:jungler/notifiers/game_notifier.dart';
+import 'package:jungler/notifiers/score_overlay_notifier.dart';
+import 'package:jungler/notifiers/sound_manager_notifier.dart';
+import 'package:jungler/screens/overlays/score_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/game_notifier.dart';
-import '../widgets/score_overlay.dart';
-import '../widgets/score_overlay_notifier.dart';
-import 'enemy_data.dart';
-import 'enemy_manager.dart';
-import 'girl_sprite.dart';
-import 'player_data.dart';
-import 'sound_manager_notifier.dart';
-
-class WarriorGirlGame extends FlameGame
-    with TapDetector, HasCollisionDetection {
+class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
   WidgetRef ref;
   double score = 0.0;
   late GirlSprites girlSprites;
@@ -27,11 +26,11 @@ class WarriorGirlGame extends FlameGame
   late final SharedPreferences shared;
   late final ParallaxComponent parallaxComponent;
 
-  WarriorGirlGame(this.ref);
+  JunglerGame(this.ref);
 
   @override
   void onMount() {
-    ref.read(gameProvider.notifier).setGameRef(this);
+    gameNotifier.setGameRef(this);
   }
 
   @override

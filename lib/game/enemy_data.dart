@@ -1,8 +1,9 @@
 import 'dart:math';
 
 import 'package:flame/game.dart';
+import 'package:jungler/constants/enums.dart';
+import 'package:jungler/notifiers/spritesheet_model.dart';
 
-import '../models/spritesheet_model.dart';
 
 Map<CharacterNameEnum, SpriteSheetModel> getEnemiesMap() {
   const int rndSpeed = 2;

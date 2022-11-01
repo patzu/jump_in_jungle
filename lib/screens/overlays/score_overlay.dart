@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../models/game_notifier.dart';
-import 'pause-overlay.dart';
-import 'pushButton.dart';
-import 'score_overlay_notifier.dart';
+import 'package:jungler/notifiers/game_notifier.dart';
+import 'package:jungler/notifiers/score_overlay_notifier.dart';
+import 'package:jungler/screens/overlays/pause-overlay.dart';
+import 'package:jungler/screens/overlays/setting_overlay.dart';
 
 class ScoreOverlay extends ConsumerWidget {
   static const String id = 'ScoreOverlay';
@@ -26,9 +25,18 @@ class ScoreOverlay extends ConsumerWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              PushButton(),
+              IconButton(
+                icon: Icon(Icons.settings),
+                color: Colors.grey,
+                iconSize: 20,
+                onPressed: () {
+                  readGameState.gameRef?.overlays.add(SettingOverlay.id);
+                  gameNotifier.pauseGameEngine();
+                },
+              ),
               Column(
                 mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(

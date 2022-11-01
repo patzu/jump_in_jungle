@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../game/sound_manager_notifier.dart';
-import '../game/warrior_girl_game.dart';
+import 'package:jungler/game/jungler_game.dart';
+import 'package:jungler/notifiers/sound_manager_notifier.dart';
 
 part 'game_notifier.freezed.dart';
 
@@ -13,7 +12,7 @@ final gameProvider = StateNotifierProvider<GameNotifier, GameState>((ref) {
 @freezed
 class GameState with _$GameState {
   const factory GameState({
-    WarriorGirlGame? gameRef,
+    JunglerGame? gameRef,
     @Default(GameStateEnum.pause) GameStateEnum gameState,
     @Default(PlayerStateEnum.alive) PlayerStateEnum playerState,
   }) = _GameState;
@@ -45,7 +44,7 @@ class GameNotifier extends StateNotifier<GameState> {
     return state.gameState;
   }
 
-  setGameRef(WarriorGirlGame gameRef) {
+  setGameRef(JunglerGame gameRef) {
     state = state.copyWith(gameRef: gameRef);
   }
 
@@ -75,14 +74,14 @@ class GameNotifier extends StateNotifier<GameState> {
 
   pauseGameEngine() {
     state = state.copyWith(gameState: GameStateEnum.pause);
-    soundManagerStateRead.pauseBackgroundMusic();
+    // soundManagerStateRead.pauseBackgroundMusic();
     state.gameRef?.pauseEngine();
   }
 
   resumeGameEngine() {
     state = state.copyWith(gameState: GameStateEnum.resume);
     state.gameRef?.resumeEngine();
-    soundManagerStateRead.resumeBackgroundMusic();
+    // soundManagerStateRead.resumeBackgroundMusic();
   }
 }
 

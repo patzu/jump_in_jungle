@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../game/sound_manager_notifier.dart';
+import 'package:jungler/notifiers/sound_manager_notifier.dart';
 
 class PushButton extends ConsumerStatefulWidget {
   const PushButton({Key? key}) : super(key: key);
@@ -19,7 +18,7 @@ class _PushButtonState extends ConsumerState<PushButton> {
   @override
   void initState() {
     super.initState();
-    isEnabled = ref.read(soundManagerProvider).bgmStatus;
+    isEnabled = ref.read(soundManagerProvider).isBackgroundMusicPlaying;
     soundManagerNotifier = ref.read(soundManagerProvider.notifier);
   }
 

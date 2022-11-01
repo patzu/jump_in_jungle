@@ -1,4 +1,4 @@
-// import 'package:bitcoin_girl/game/warrior_girl_game.dart';
+// import 'package:bitcoin_girl/game/jungler_game.dart';
 // import 'package:bitcoin_girl/widgets/score_overlay_notifier.dart';
 // import 'package:bitcoin_girl/widgets/play_overlay.dart';
 // import 'package:bitcoin_girl/widgets/score_overlay.dart';

@@ -1,7 +1,7 @@
 import 'package:flame/components.dart';
+import 'package:jungler/game/components/girl_sprite.dart';
+import 'package:jungler/game/utils/texture_packer_loader.dart';
 
-import '../utils/texture_packer_loader.dart';
-import 'girl_sprite.dart';
 
 class PlayerData {
   late SpriteAnimation jumpSpriteAnimation;
