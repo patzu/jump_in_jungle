@@ -41,10 +41,8 @@ class Enemy extends SpriteAnimationComponent
     int score = ref.read(scoreOverlayProvider.notifier).getScore();
 
     enemyData = enemyData.copyWith(
-        speed: enemyData.speed +
-            score / 1000 +
-            Random().nextInt(2).toDouble() +
-            1);
+      speed: enemyData.speed + score / 1000 + Random().nextInt(2).toDouble(),
+    );
 
     return super.onLoad();
   }
@@ -57,8 +55,6 @@ class Enemy extends SpriteAnimationComponent
   @override
   void update(double dt) {
     position += Vector2(-enemyData.speed, 0);
-
-    // shoot();
 
     _timer.update(dt);
 
@@ -81,8 +77,6 @@ class Enemy extends SpriteAnimationComponent
 
   @override
   void render(Canvas canvas) {
-    // renderHitboxes(canvas);
-
     super.render(canvas);
   }
 }

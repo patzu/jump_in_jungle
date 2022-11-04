@@ -37,9 +37,11 @@ class SoundManagerNotifier extends StateNotifier<SoundManagerState> {
   }
 
   void playBackgroundMusic() {
-    FlameAudio.bgm.initialize();
-    FlameAudio.bgm.play('bgmj.mp3');
-    state = state.copyWith(isBackgroundMusicPlaying: true);
+    if (state.isBackgroundMusicPlaying) {
+      FlameAudio.bgm.initialize();
+      FlameAudio.bgm.play('bgmj.mp3');
+      state = state.copyWith(isBackgroundMusicPlaying: true);
+    }
   }
 
   void pauseBackgroundMusic() {

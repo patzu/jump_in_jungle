@@ -33,57 +33,64 @@ class _SettingOverlayState extends ConsumerState<SettingOverlay> {
     final gameProviderRead = ref.read(gameProvider);
     final gameNotifier = ref.read(gameProvider.notifier);
 
-    return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width / 2,
-        height: MediaQuery.of(context).size.height / 3 * 2,
-        color: Colors.white70,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton(
-              icon: Icon(Icons.close),
-              onPressed: () {
-                gameProviderRead.gameRef!.overlays.remove(SettingOverlay.id);
-                gameNotifier.resumeGameEngine();
-              },
-            ),
-            SwitchListTile(
-              title: const Text('Jump Sound'),
-              value: _isJumpSoundOn,
-              onChanged: (bool value) {
-                setState(() {
-                  _isJumpSoundOn = value;
-                });
-                soundManagerNotifier.setIsJumpSoundPlaying(value);
-              },
-              secondary: const Icon(Icons.lightbulb_outline),
-            ),
-            SwitchListTile(
-              title: const Text('Hurt Sound'),
-              value: _isHurtSoundOn,
-              onChanged: (bool value) {
-                setState(() {
-                  _isHurtSoundOn = value;
-                });
-                soundManagerNotifier.setIsHurtSoundPlaying(value);
-              },
-              secondary: const Icon(Icons.lightbulb_outline),
-            ),
-            SwitchListTile(
-              title: const Text('Background Music'),
-              value: _isBackgroundMusicOn,
-              onChanged: (bool value) {
-                setState(() {
-                  _isBackgroundMusicOn = value;
-                });
-                value
-                    ? soundManagerNotifier.resumeBackgroundMusic()
-                    : soundManagerNotifier.pauseBackgroundMusic();
-              },
-              secondary: const Icon(Icons.lightbulb_outline),
-            ),
-          ],
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        gameProviderRead.gameRef!.overlays.remove(SettingOverlay.id);
+        gameNotifier.resumeGameEngine();
+      },
+      child: Center(
+        child: Container(
+          width: MediaQuery.of(context).size.width / 2,
+          height: MediaQuery.of(context).size.height / 3 * 2,
+          color: Colors.white70,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(Icons.close),
+                onPressed: () {
+                  gameProviderRead.gameRef!.overlays.remove(SettingOverlay.id);
+                  gameNotifier.resumeGameEngine();
+                },
+              ),
+              SwitchListTile(
+                title: const Text('Jump Sound'),
+                value: _isJumpSoundOn,
+                onChanged: (bool value) {
+                  setState(() {
+                    _isJumpSoundOn = value;
+                  });
+                  soundManagerNotifier.setIsJumpSoundPlaying(value);
+                },
+                secondary: const Icon(Icons.lightbulb_outline),
+              ),
+              SwitchListTile(
+                title: const Text('Hurt Sound'),
+                value: _isHurtSoundOn,
+                onChanged: (bool value) {
+                  setState(() {
+                    _isHurtSoundOn = value;
+                  });
+                  soundManagerNotifier.setIsHurtSoundPlaying(value);
+                },
+                secondary: const Icon(Icons.lightbulb_outline),
+              ),
+              SwitchListTile(
+                title: const Text('Background Music'),
+                value: _isBackgroundMusicOn,
+                onChanged: (bool value) {
+                  setState(() {
+                    _isBackgroundMusicOn = value;
+                  });
+                  value
+                      ? soundManagerNotifier.resumeBackgroundMusic()
+                      : soundManagerNotifier.pauseBackgroundMusic();
+                },
+                secondary: const Icon(Icons.lightbulb_outline),
+              ),
+            ],
+          ),
         ),
       ),
     );

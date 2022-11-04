@@ -74,14 +74,12 @@ class GameNotifier extends StateNotifier<GameState> {
 
   pauseGameEngine() {
     state = state.copyWith(gameState: GameStateEnum.pause);
-    // soundManagerStateRead.pauseBackgroundMusic();
     state.gameRef?.pauseEngine();
   }
 
   resumeGameEngine() {
     state = state.copyWith(gameState: GameStateEnum.resume);
     state.gameRef?.resumeEngine();
-    // soundManagerStateRead.resumeBackgroundMusic();
   }
 }
 
