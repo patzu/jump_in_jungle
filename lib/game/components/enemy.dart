@@ -41,7 +41,7 @@ class Enemy extends SpriteAnimationComponent
     int score = ref.read(scoreOverlayProvider.notifier).getScore();
 
     enemyData = enemyData.copyWith(
-      speed: enemyData.speed + score / 1000 + Random().nextInt(2).toDouble(),
+      speed: enemyData.speed + score / 2000 + Random().nextDouble() * 3,
     );
 
     return super.onLoad();

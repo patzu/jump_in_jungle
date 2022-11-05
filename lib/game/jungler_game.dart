@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jungler/game/components/enemy_manager.dart';
 import 'package:jungler/game/components/girl_sprite.dart';
 import 'package:jungler/game/enemy_data.dart';
-import 'package:jungler/game/jungler_game.dart';
 import 'package:jungler/game/player_data.dart';
 import 'package:jungler/main.dart';
 import 'package:jungler/notifiers/game_notifier.dart';
@@ -25,6 +24,7 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
   late final EnemyManager enemyManager;
   late final SharedPreferences shared;
   late final ParallaxComponent parallaxComponent;
+  late final EnemyManager splashEnemyManager;
 
   JunglerGame(this.ref);
 
@@ -35,7 +35,7 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
 
   @override
   Future<void>? onLoad() async {
-    enemyManager = EnemyManager(ref);
+    enemyManager = EnemyManager(ref, false);
     gameNotifier = ref.read(gameProvider.notifier);
     scoreOverlayNotifier = ref.read(scoreOverlayProvider.notifier);
 
@@ -56,6 +56,8 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
     } else {
       shared.setInt('highScore', 0);
     }
+    splashEnemyManager = EnemyManager(ref, true);
+    add(splashEnemyManager);
 
     return super.onLoad();
   }
@@ -71,11 +73,11 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
     }
 
     int score = scoreOverlayNotifier.getScore();
-    if (score % 15 == 0) {
+    if (score % 20 == 0) {
       var layers = parallaxComponent.parallax!.layers;
       for (var element in layers) {
         element.velocityMultiplier =
-            element.velocityMultiplier + Vector2(score / 100000, 0);
+            element.velocityMultiplier + Vector2(score / 200000, 0);
       }
     }
     super.update(dt);
@@ -83,6 +85,8 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
 
   void startGame() {
     Future.delayed(Duration(seconds: 1)).then((value) {
+      splashEnemyManager.removeAllEnemies();
+      splashEnemyManager.removeFromParent();
       ref.read(soundManagerProvider.notifier).playBackgroundMusic();
       gameNotifier.setPlayerState(PlayerStateEnum.alive);
       gameNotifier.setGameState(GameStateEnum.resume);

@@ -121,7 +121,7 @@ class __$$_SoundManagerStateCopyWithImpl<$Res>
 
 class _$_SoundManagerState implements _SoundManagerState {
   const _$_SoundManagerState(
-      {this.isBackgroundMusicPlaying = false,
+      {this.isBackgroundMusicPlaying = true,
       this.isHurtSoundPlaying = true,
       this.isJumpSoundPlaying = true});
 

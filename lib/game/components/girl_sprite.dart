@@ -20,7 +20,7 @@ class GirlSprites extends SpriteAnimationComponent
   late SpriteAnimation hitSpriteAnimation;
 
   Vector2 velocity = Vector2.zero();
-  Vector2 gravity = Vector2(0, 500);
+  Vector2 gravity = Vector2(0, 800);
   bool isJumping = false;
   bool isRunning = false;
   bool isDead = false;

@@ -15,13 +15,14 @@ class EnemyManager extends Component with HasGameRef<JunglerGame> {
   late Enemy enemy;
   final Random _random = Random();
   WidgetRef ref;
+  bool isSplashScreen = false;
 
-  EnemyManager(this.ref);
+  EnemyManager(this.ref, this.isSplashScreen);
 
   @override
   Future<void>? onLoad() {
     _timer = Timer(
-      Random().nextInt(2) + 2,
+      isSplashScreen ? 0.05 : Random().nextInt(2) + 1,
       repeat: true,
       onTick: () => {
         spawnEnemy(),
@@ -33,7 +34,7 @@ class EnemyManager extends Component with HasGameRef<JunglerGame> {
 
   spawnEnemy() {
     SpriteSheetModel enemyData = getRandomEnemy()!;
-    enemy = Enemy(enemyData,ref);
+    enemy = Enemy(enemyData, ref);
     enemy.position = Vector2(gameRef.size.x,
         gameRef.size.y - ground.y - enemyData.spriteSizeOnCanvas.y / 2 + 10);
 
