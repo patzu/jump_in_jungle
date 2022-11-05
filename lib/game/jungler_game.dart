@@ -83,6 +83,7 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
 
   void startGame() {
     Future.delayed(Duration(seconds: 1)).then((value) {
+      ref.read(soundManagerProvider.notifier).playBackgroundMusic();
       gameNotifier.setPlayerState(PlayerStateEnum.alive);
       gameNotifier.setGameState(GameStateEnum.resume);
 
