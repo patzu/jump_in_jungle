@@ -7,7 +7,7 @@ part 'sound_manager_notifier.freezed.dart';
 @freezed
 class SoundManagerState with _$SoundManagerState {
   const factory SoundManagerState({
-    @Default(false) bool isBackgroundMusicPlaying,
+    @Default(true) bool isBackgroundMusicPlaying,
     @Default(true) bool isHurtSoundPlaying,
     @Default(true) bool isJumpSoundPlaying,
   }) = _SoundManagerState;
