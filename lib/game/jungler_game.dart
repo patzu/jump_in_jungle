@@ -15,6 +15,8 @@ import 'package:jungler/notifiers/sound_manager_notifier.dart';
 import 'package:jungler/screens/overlays/score_overlay.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+final isSplashScreenProvider = StateProvider((ref) => true);
+
 class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
   WidgetRef ref;
   double score = 0.0;
@@ -22,7 +24,7 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
   late final ScoreOverlayNotifier scoreOverlayNotifier;
   late final GameNotifier gameNotifier;
   late final EnemyManager enemyManager;
-  late final SharedPreferences shared;
+  late final SharedPreferences sharedPrefs;
   late final ParallaxComponent parallaxComponent;
   late final EnemyManager splashEnemyManager;
 
@@ -35,7 +37,7 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
 
   @override
   Future<void>? onLoad() async {
-    enemyManager = EnemyManager(ref, false);
+    enemyManager = EnemyManager(ref);
     gameNotifier = ref.read(gameProvider.notifier);
     scoreOverlayNotifier = ref.read(scoreOverlayProvider.notifier);
 
@@ -50,13 +52,13 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
 
     girlSprites = GirlSprites(playerData, ref);
 
-    shared = ref.read(sharedPreferencesProvider);
-    if (shared.containsKey('highScore')) {
-      scoreOverlayNotifier.setHighScore(shared.getInt('highScore')!);
+    sharedPrefs = ref.read(sharedPreferencesProvider);
+    if (sharedPrefs.containsKey('highScore')) {
+      scoreOverlayNotifier.setHighScore(sharedPrefs.getInt('highScore')!);
     } else {
-      shared.setInt('highScore', 0);
+      sharedPrefs.setInt('highScore', 0);
     }
-    splashEnemyManager = EnemyManager(ref, true);
+    splashEnemyManager = EnemyManager(ref);
     add(splashEnemyManager);
 
     return super.onLoad();
@@ -66,18 +68,18 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
   void update(double dt) {
     if (gameNotifier.getGameState() == GameStateEnum.resume) {
       scoreOverlayNotifier.addScoreByOne();
-      if (scoreOverlayNotifier.getScore() >= shared.getInt('highScore')!) {
+      if (scoreOverlayNotifier.getScore() >= sharedPrefs.getInt('highScore')!) {
         scoreOverlayNotifier.setHighScore(scoreOverlayNotifier.getScore());
-        shared.setInt('highScore', scoreOverlayNotifier.getScore());
+        sharedPrefs.setInt('highScore', scoreOverlayNotifier.getScore());
       }
     }
 
     int score = scoreOverlayNotifier.getScore();
-    if (score % 20 == 0) {
+    if (score % 20 == 0 && score != 0) {
       var layers = parallaxComponent.parallax!.layers;
       for (var element in layers) {
         element.velocityMultiplier =
-            element.velocityMultiplier + Vector2(score / 200000, 0);
+            element.velocityMultiplier + Vector2(score / 250000, 0);
       }
     }
     super.update(dt);
@@ -85,6 +87,8 @@ class JunglerGame extends FlameGame with TapDetector, HasCollisionDetection {
 
   void startGame() {
     Future.delayed(Duration(seconds: 1)).then((value) {
+      ref.read(isSplashScreenProvider.notifier).state = false;
+
       splashEnemyManager.removeAllEnemies();
       splashEnemyManager.removeFromParent();
       ref.read(soundManagerProvider.notifier).playBackgroundMusic();

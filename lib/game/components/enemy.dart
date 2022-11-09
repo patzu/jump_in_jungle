@@ -33,7 +33,7 @@ class Enemy extends SpriteAnimationComponent
     anchor = Anchor.center;
     add(CircleHitbox());
 
-    _timer = Timer(Random().nextInt(3) + 1, repeat: true, autoStart: true,
+    _timer = Timer(Random().nextInt(2) + 1, repeat: true, autoStart: true,
         onTick: () {
       shoot();
     });
@@ -41,7 +41,10 @@ class Enemy extends SpriteAnimationComponent
     int score = ref.read(scoreOverlayProvider.notifier).getScore();
 
     enemyData = enemyData.copyWith(
-      speed: enemyData.speed + score / 2000 + Random().nextDouble() * 3,
+      speed: enemyData.speed +
+          score / 2000 +
+          Random().nextDouble() * 6 -
+          Random().nextDouble() * 5,
     );
 
     return super.onLoad();

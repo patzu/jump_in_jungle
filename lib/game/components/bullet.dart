@@ -54,7 +54,7 @@ class Bullet extends SpriteAnimationComponent
 
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is Enemy && other != bulletShooter) {
+    if (other is Enemy && other != bulletShooter && !other.enemyData.canFly) {
       ref
           .read<SoundManagerNotifier>(soundManagerProvider.notifier)
           .playHurtSound();

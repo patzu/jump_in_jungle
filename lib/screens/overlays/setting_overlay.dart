@@ -47,13 +47,6 @@ class _SettingOverlayState extends ConsumerState<SettingOverlay> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () {
-                  gameProviderRead.gameRef!.overlays.remove(SettingOverlay.id);
-                  gameNotifier.resumeGameEngine();
-                },
-              ),
               SwitchListTile(
                 title: const Text('Jump Sound'),
                 value: _isJumpSoundOn,

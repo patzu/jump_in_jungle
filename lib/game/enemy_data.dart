@@ -6,7 +6,7 @@ import 'package:jungler/notifiers/spritesheet_model.dart';
 
 
 Map<CharacterNameEnum, SpriteSheetModel> getEnemiesMap() {
-  const int rndSpeed = 2;
+  const int rndSpeed = 4;
   const int speed = 4;
 
   return {

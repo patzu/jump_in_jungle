@@ -15,14 +15,13 @@ class EnemyManager extends Component with HasGameRef<JunglerGame> {
   late Enemy enemy;
   final Random _random = Random();
   WidgetRef ref;
-  bool isSplashScreen = false;
 
-  EnemyManager(this.ref, this.isSplashScreen);
+  EnemyManager(this.ref);
 
   @override
   Future<void>? onLoad() {
     _timer = Timer(
-      isSplashScreen ? 0.05 : Random().nextInt(2) + 1,
+      ref.read(isSplashScreenProvider) ? 0.08 : Random().nextInt(2) + 2,
       repeat: true,
       onTick: () => {
         spawnEnemy(),

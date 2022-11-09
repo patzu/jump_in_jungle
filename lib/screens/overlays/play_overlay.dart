@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jungler/notifiers/game_notifier.dart';
+import 'package:jungler/screens/overlays/setting_overlay.dart';
 
 
 class PlayOverlay extends ConsumerWidget {
@@ -34,8 +35,11 @@ class PlayOverlay extends ConsumerWidget {
                 'Setting',
                 style: TextStyle(fontSize: 25),
               ),
-              onPressed: () {},
+              onPressed: () {
+                gameProviderRead.gameRef?.overlays.add(SettingOverlay.id);
+              },
             ),
+
           ],
         ),
       ),

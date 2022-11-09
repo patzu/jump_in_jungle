@@ -40,7 +40,7 @@ class GameNotifier extends StateNotifier<GameState> {
     state = state.copyWith(gameState: gameState);
   }
 
-  GameStateEnum getGameState() {
+  getGameState() {
     return state.gameState;
   }
 
