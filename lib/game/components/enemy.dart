@@ -14,10 +14,14 @@ class Enemy extends SpriteAnimationComponent
     with HasGameRef, CollisionCallbacks {
   SpriteSheetModel enemyData;
   WidgetRef ref;
+  late double localSpeed;
 
   Enemy(this.enemyData, this.ref);
 
   late Timer _timer;
+
+  int getRandomIntBetween(int min, int max) =>
+      min + Random().nextInt(max - min);
 
   @override
   Future<void>? onLoad() async {
@@ -30,7 +34,7 @@ class Enemy extends SpriteAnimationComponent
     animation = await gameRef.loadSpriteAnimation(
         enemyData.imagePath, spriteAnimationData);
 
-    anchor = Anchor.center;
+    anchor = Anchor.topCenter;
     add(CircleHitbox());
 
     _timer = Timer(Random().nextInt(2) + 1, repeat: true, autoStart: true,
@@ -39,13 +43,11 @@ class Enemy extends SpriteAnimationComponent
     });
 
     int score = ref.read(scoreOverlayProvider.notifier).getScore();
+    int rnd = getRandomIntBetween(3000, 10000);
 
-    enemyData = enemyData.copyWith(
-      speed: enemyData.speed +
-          score / 2000 +
-          Random().nextDouble() * 6 -
-          Random().nextDouble() * 5,
-    );
+    enemyData = enemyData.copyWith(speed: enemyData.speed + score / rnd);
+
+    localSpeed = enemyData.speed + Random().nextInt(1) - Random().nextInt(1);
 
     return super.onLoad();
   }
@@ -57,7 +59,7 @@ class Enemy extends SpriteAnimationComponent
 
   @override
   void update(double dt) {
-    position += Vector2(-enemyData.speed, 0);
+    position += Vector2(-localSpeed, 0);
 
     _timer.update(dt);
 

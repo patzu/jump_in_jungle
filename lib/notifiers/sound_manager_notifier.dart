@@ -30,6 +30,10 @@ class SoundManagerNotifier extends StateNotifier<SoundManagerState> {
     }
   }
 
+  void playKillSound() {
+      FlameAudio.play('kill.wav');
+  }
+
   void playJumpAudio() {
     if (state.isJumpSoundPlaying) {
       FlameAudio.play('jump14.wav');
@@ -39,6 +43,7 @@ class SoundManagerNotifier extends StateNotifier<SoundManagerState> {
   void playBackgroundMusic() {
     if (state.isBackgroundMusicPlaying) {
       FlameAudio.bgm.initialize();
+      FlameAudio.bgm.audioPlayer.setVolume(10);
       FlameAudio.bgm.play('bgmj.mp3');
       state = state.copyWith(isBackgroundMusicPlaying: true);
     }

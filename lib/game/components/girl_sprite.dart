@@ -86,6 +86,8 @@ class GirlSprites extends SpriteAnimationComponent
     position += (velocity * dt - gravity * dt * dt / 2);
     velocity += gravity * dt;
 
+    // print(position.y);
+
     if (isPlayerBellowTheGround()) {
       resetPlayerPositionToTheGround();
     }
@@ -137,7 +139,6 @@ class GirlSprites extends SpriteAnimationComponent
         0,
         -deviceYAxisMinusGroundHeight,
       );
-
       isDead = false;
       isJumping = true;
       isRunning = false;
@@ -181,7 +182,15 @@ class GirlSprites extends SpriteAnimationComponent
   @override
   void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is Enemy && !isHit && !isDead) {
-      hit();
+      if (position.y >= other.position.y &&
+          position.y <= other.position.y + 15 &&
+          position.x <= other.position.x + other.size.x  &&
+          position.x >= other.position.x - other.size.x ) {
+        soundManagerNotifier.playKillSound();
+        other.removeFromParent();
+      } else {
+        hit();
+      }
     }
     super.onCollision(intersectionPoints, other);
   }

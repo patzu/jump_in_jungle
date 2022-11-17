@@ -21,7 +21,7 @@ class EnemyManager extends Component with HasGameRef<JunglerGame> {
   @override
   Future<void>? onLoad() {
     _timer = Timer(
-      ref.read(isSplashScreenProvider) ? 0.08 : Random().nextInt(2) + 2,
+      ref.read(isSplashScreenProvider) ? 0.08 : Random().nextInt(3).toDouble()+1,
       repeat: true,
       onTick: () => {
         spawnEnemy(),
@@ -35,7 +35,7 @@ class EnemyManager extends Component with HasGameRef<JunglerGame> {
     SpriteSheetModel enemyData = getRandomEnemy()!;
     enemy = Enemy(enemyData, ref);
     enemy.position = Vector2(gameRef.size.x,
-        gameRef.size.y - ground.y - enemyData.spriteSizeOnCanvas.y / 2 + 10);
+        gameRef.size.y - ground.y - enemyData.spriteSizeOnCanvas.y +10);
 
     if (enemy.enemyData.canFly) {
       enemy.position.y -= _random.nextInt(220) + 5;

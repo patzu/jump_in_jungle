@@ -23,7 +23,7 @@ class PlayOverlay extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextButton(
-              child: Text('Play', style: TextStyle(fontSize: 25)),
+              child: Text('Start Game', style: TextStyle(fontSize: 25)),
               onPressed: () {
                 gameProviderRead.gameRef?.startGame();
                 gameProviderRead.gameRef?.overlays.remove(PlayOverlay.id);
